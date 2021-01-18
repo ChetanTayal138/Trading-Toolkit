@@ -59,6 +59,7 @@ if __name__ == "__main__":
     axs[0].plot(np.array(ema_12_means), 'b')
 
     axs[1].plot(macd_line, 'r')
+    axs[1].bar([i for i in range(253)], macd_line/2)
     axs[1].plot(signal_line, 'b')
     axs[1].hlines(0, 0, 253)
     plt.show()
