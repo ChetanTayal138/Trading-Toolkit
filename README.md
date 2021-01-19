@@ -1,10 +1,9 @@
 # Introduction
 
-The purpose of this ever-growing repository is to serve as an introduction to basic market indicators that serve as the basis of a multitude of trading decisions. All implementations are done using barebones numpy and pandas and can probably be done using a more efficient vectorized approach (which will also be explored) but for now the goal is to gain an understanding of the working of the indicators. 
+The purpose of this ever-growing repository is to serve as an introduction to basic market indicators that serve as the basis of a multitude of trading decisions. All implementations are done using barebones numpy and pandas and can probably be done using a more efficient vectorized approach (which will also be explored) but for now the goal is to gain an understanding of the working of the indicators.
 
 
-
-# Indicators currently implemented
+# Indicators Currently Implemented
 
 
 ### SMA & EMA 
@@ -40,3 +39,9 @@ Relative Strength Index is another momentum based indicator that tries to model 
 
 
 ![RSI for TSLA](https://github.com/ChetanTayal138/Trading-Toolkit/blob/main/images/rsi.png)
+
+
+
+## Future Work
+
+Future work includes implementations of more technical indicators and a backtesting class where we can subclass it to write and test out our strategies.
