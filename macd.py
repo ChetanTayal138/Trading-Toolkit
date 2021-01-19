@@ -29,9 +29,7 @@ if __name__ == "__main__":
     ema_26 = exponential_moving_average(temp, day_range=26)
     
     ema_12 = exponential_moving_average(temp, day_range=12)
-    print(len(temp['Close']))
-    print(len(ema_26))
-    print(len(ema_12))
+    
     # MACD is calculated by subtracting the 26-period EMA from the 12-period EMA
     
     # We then generate a signal line by calculating a 9-period EMA of the MACD
@@ -54,10 +52,12 @@ if __name__ == "__main__":
    
     fig, axs = plt.subplots(2)
 
+    axs[0].title.set_text("26-period EMA (Red) vs 12-period EMA (Black)")
     axs[0].plot(np.array(temp['Close']), 'black')
     axs[0].plot(np.array(ema_26_means), 'r')
     axs[0].plot(np.array(ema_12_means), 'b')
 
+    axs[1].title.set_text("Corresponding MACD line (Red) and Signal Line (Black)")
     axs[1].plot(macd_line, 'r')
     axs[1].bar([i for i in range(253)], macd_line/2)
     axs[1].plot(signal_line, 'b')

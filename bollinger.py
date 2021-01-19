@@ -30,10 +30,6 @@ def bollinger(df, day_range=10,view=False, number_of_deviations=2 ):
 
 
 
-
-
-
-
 if __name__ == "__main__":
 
     
@@ -44,10 +40,7 @@ if __name__ == "__main__":
 
     temp = filter_df(START_DATE, END_DATE, df)
     sma, bolu, bold = bollinger(temp, day_range=20)
-    print(len(sma))
-    print(len(bolu))
-    print(len(bold))
-
+    
     sma_values = []
     bolu_values = []
     bold_values = []
@@ -56,7 +49,8 @@ if __name__ == "__main__":
         sma_values.append(sma[k]['value'])
         bolu_values.append(bolu[k]['value'])
         bold_values.append(bold[k]['value'])
-        
+    
+    plt.title("Upper Band (Green) and Lower Band (Red)")
     plt.plot(bolu_values, 'g')
     plt.plot(sma_values ,'black')
     plt.plot(bold_values, 'r')

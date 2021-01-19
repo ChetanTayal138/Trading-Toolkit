@@ -5,8 +5,6 @@ import matplotlib.pyplot as plt
 
 
 
-
-
 def read_df(filename):
     df = pd.read_csv(filename, parse_dates=["Date"])
     return df
@@ -63,12 +61,10 @@ if __name__ == "__main__":
     END_DATE = "2021-01-01"
 
     temp = filter_df(START_DATE, END_DATE, df)
-    print(len(temp))
-    sma = simple_moving_average(temp, day_range=2)
-    print(len(sma))
-    ema = exponential_moving_average(temp, day_range=2)
-    print(len(ema))
+    
+    sma = simple_moving_average(temp, day_range=30)
 
+    ema = exponential_moving_average(temp, day_range=30)
     
     sma_means = []
     ema_means = []
@@ -78,9 +74,7 @@ if __name__ == "__main__":
     for k in ema:
         ema_means.append(ema[k]['Mean'])
 
-    #print(sma_means)
-    #print(ema_means)
-
+    
     sma_means = np.array(sma_means)
     ema_means = np.array(ema_means)
     
@@ -90,14 +84,11 @@ if __name__ == "__main__":
     print(np.square(actual_price-sma_means).mean(axis=0))
     print(np.square(actual_price-ema_means).mean(axis=0))
 
-    #fig, axs = plt.subplots(2)
-    #fig.suptitle('Simple Moving Average vs Exponential Moving Average')
+    
+    plt.title('Simple Moving Average (Red) vs Exponential Moving Average (Green)')
     plt.plot(sma_means, 'r')
     plt.plot(np.array(temp['Close']), 'black')
     plt.plot(ema_means, 'g')
-    
-
-    #temp['Close'].plot(x="Open")
     plt.show()
 
 
