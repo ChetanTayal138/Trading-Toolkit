@@ -74,13 +74,18 @@ if __name__ == "__main__":
 
 
     #print(len(rsi_values))
-    print(min(rsi_values))
-    print(max(rsi_values))
-    plt.plot(rsi_values)
+    #print(min(rsi_values))
+    #print(max(rsi_values))
+    #plt.plot(rsi_values)
 
-    #fig, axs = plt.subplots(2)
-    #axs[0].plot(close_values[:-13])
-    #axs[1].plot(rsi_values)
+    fig, axs = plt.subplots(2)
+    axs[0].title.set_text("Closing price values")
+    axs[0].plot(close_values[:-13])
+    
+    axs[1].title.set_text("RSI indicator")
+    axs[1].plot(rsi_values, "r")
+    axs[1].axhline(30, c="black")
+    axs[1].axhline(70, c="black")
     plt.show()
 
 
