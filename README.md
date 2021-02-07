@@ -41,6 +41,12 @@ Relative Strength Index is another momentum based indicator that tries to model 
 ![RSI for TSLA](https://github.com/ChetanTayal138/Trading-Toolkit/blob/main/images/rsi.png)
 
 
+### Alpha and Beta
+
+Alpha and Beta are indirectly derived from the Capital Asset Pricing Model (CAPM), a way to determine a security's risk by comparing its volatility against a standard benchmark, typically an index fund like the S&P 500. Alpha and Beta can be easily calculated by employing regression analysis on two variables- Returns of the portfolio (in this case, these are weekly returns of TSLA) and the returns of the standard benchmark( in this case, these are the weekly returns of S&P 500). Using return of portfolio = alpha + beta * return of benchmark, we can obtain the regression parameters. The intercept corresponds to the Alpha and the coefficient corresponds to the Beta of the security.
+
+![AlphaBeta for TSLA](https://github.com/ChetanTayal138/Trading-Toolkit/blob/main/images/alphabeta.png)
+
 
 ## Future Work
 

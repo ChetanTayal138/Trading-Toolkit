@@ -57,9 +57,12 @@ def exponential_moving_average(df, day_range=10, view=False, smoothing_factor=2)
 if __name__ == "__main__":
 
     df = read_df("./tsla.csv")
+    print(df.head())
+    print(df.tail())
+    exit()
     START_DATE = "2020-01-01"
     END_DATE = "2021-01-01"
-
+    
     temp = filter_df(START_DATE, END_DATE, df)
     
     sma = simple_moving_average(temp, day_range=30)

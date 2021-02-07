@@ -39,6 +39,8 @@ if __name__ == "__main__":
 
     plt.scatter(pct_2, pct_1)
     plt.plot(pct_2, predictions, color='k')
+    plt.xlabel("Benchmark Return")
+    plt.ylabel("Security Returns")
    
     plt.show()
     
