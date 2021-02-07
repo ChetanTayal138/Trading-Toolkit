@@ -2,19 +2,17 @@ from utils import *
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 
-
-def read_spaced():
-    df = pd.read_csv("./regression_example.csv", sep="\t")
-    print(df.head())
-    return df
+def normal_equation(x, y):
+    x = np.hstack((np.ones((x.shape[0], 1), dtype=float), x))    
+    A1 = np.linalg.inv(x.T.dot(x))
+    A2 = A1.dot(x.T)
+    A3 = A2.dot(y)
+    return A3
 
 
 if __name__ == "__main__":
 
-    #df = read_spaced()
-    
-
-    
+        
     df_1 = read_df("./tsla.csv")
     df_2 = read_df("./snp.csv")
 
@@ -28,34 +26,19 @@ if __name__ == "__main__":
     
     temp_1 = temp_1.groupby(pd.Grouper(key='Date', freq='1W')).nth(0)
     temp_2 = temp_2.groupby(pd.Grouper(key='Date', freq='1W')).nth(0)
-
-
     
     pct_1 = temp_1['Close'].pct_change().values[1:].reshape(-1,1)
     pct_2 = temp_2['Close'].pct_change().values[1:].reshape(-1,1)
-    """pct_1 = list(df['PortReturn'].values)
-    pct_2 = list(df['S&P500Return'].values)
-    
-    pct_1_vals = []
-    pct_2_vals = []
 
-    for i in pct_1:
-        i = i.replace('%', '')
-        pct_1_vals.append(float(i))
+    alpha, beta = normal_equation(pct_2, pct_1)
 
-    for i in pct_2:
-        i = i.replace('%', '')
-        pct_2_vals.append(float(i))
-    pct_1 = np.array(pct_1_vals).reshape(-1,1)
-    pct_2 = np.array(pct_2_vals).reshape(-1,1)"""
+    print(f"Alpha is {alpha/100}")
+    print(f"Beta is {beta}")
 
-    reg = LinearRegression().fit(pct_2, pct_1)
-
-    print(f"Alpha is {reg.intercept_/100}")
-    print(f"Beta is {reg.coef_}")
+    predictions = alpha + pct_2 * beta
 
     plt.scatter(pct_2, pct_1)
-    plt.plot(pct_2, reg.predict(pct_2), color='k')
+    plt.plot(pct_2, predictions, color='k')
    
     plt.show()
     
