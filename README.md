@@ -18,7 +18,7 @@ Perhaps the most basic indicators to gain an understanding of the underlying sec
 
 React quicker to traditional MAs helping traders exit their positions at an earlier stage, allowing them to minimize losses altho susceptible to overtrading. Based on the formula => DEMA = 2 * Ema(n) - Ema(Ema(n)), it utilizes the EMA of an n-period EMA to reduce noise. If the security's actual price is above the DEMA line and the DEMA is on an upward trend, it helps reinforce or confirm an upward trend (and vice versa for downward trend).
 
-
+![DEMA for TSLA](https://github.com/ChetanTayal138/Trading-Toolkit/blob/main/images/double_exponential_ma.png)
 
 
 ### Bollinger Bands
