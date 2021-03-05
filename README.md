@@ -14,6 +14,13 @@ Perhaps the most basic indicators to gain an understanding of the underlying sec
 ![Comparison of SMA and EMA for TSLA](https://github.com/ChetanTayal138/Trading-Toolkit/blob/main/images/sma_ema.png)
 
 
+### DEMA
+
+React quicker to traditional MAs helping traders exit their positions at an earlier stage, allowing them to minimize losses altho susceptible to overtrading. Based on the formula => DEMA = 2 * Ema(n) - Ema(Ema(n)), it utilizes the EMA of an n-period EMA to reduce noise. If the security's actual price is above the DEMA line and the DEMA is on an upward trend, it helps reinforce or confirm an upward trend (and vice versa for downward trend).
+
+![DEMA for TSLA](https://github.com/ChetanTayal138/Trading-Toolkit/blob/main/images/dema.png)
+
+
 ### Bollinger Bands
 
 Bollinger bands aim to model an upper and lower limit on the underlying security's sell value i.e oversold or underbought by plotting trendlines N-standard deviations away from the SMA or EMA of the security. Typically this N is equal to 2 standard deviations which covers almost 95% of variance of the data from the mean (68-95-99.7 rule). If the SMA/EMA moves closer to the Upper Bollinger Band it is considered to be an overbought asset and if the SMA/EMA moves closer to the Lower Bollinger Band it is considered to be an undersold asset. 
