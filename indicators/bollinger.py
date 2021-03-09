@@ -1,5 +1,6 @@
 from utils import *
 
+
 def calculate_bands(ma, number_of_deviations, std_deviation):
     bolu = ma + number_of_deviations * std_deviation
     bold = ma - number_of_deviations * std_deviation

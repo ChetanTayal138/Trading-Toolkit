@@ -54,12 +54,12 @@ def exponential_moving_average(df, day_range=10, view=False, smoothing_factor=2)
 
     return means
 
+
+
 if __name__ == "__main__":
 
-    df = read_df("./tsla.csv")
-    print(df.head())
-    print(df.tail())
-    exit()
+    df = read_df("data/tsla.csv")
+    
     START_DATE = "2020-01-01"
     END_DATE = "2021-01-01"
     
