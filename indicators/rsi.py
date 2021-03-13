@@ -42,19 +42,15 @@ def calculate_gain_loss(close_values, lookback_period=14):
     
     return ag, al
 
-if __name__ == "__main__":
 
-    df = read_df("./tsla.csv")
-    START_DATE = "2020-01-01"
-    END_DATE = "2021-01-01"
 
-    temp = filter_df(START_DATE, END_DATE, df)
-    close_values = temp['Close'].values
+
+def compute_rsi(close_values):
+
     rsi_values = []
     gain_averages = []
     loss_averages = []
-    
-    
+
     
     ag, al = calculate_gain_loss(close_values[0:14])
     rsi_values.append(compute_rsi_one(ag, al))
@@ -72,11 +68,20 @@ if __name__ == "__main__":
         except: 
             print("Encountered non divisible scenario")
 
+    return rsi_values
 
-    #print(len(rsi_values))
-    #print(min(rsi_values))
-    #print(max(rsi_values))
-    #plt.plot(rsi_values)
+
+if __name__ == "__main__":
+
+    df = read_df("data/tsla.csv")
+    START_DATE = "2020-01-01"
+    END_DATE = "2021-01-01"
+
+    temp = filter_df(START_DATE, END_DATE, df)
+    
+    close_values = temp['Close'].values
+    rsi_values = compute_rsi(close_values)
+    
 
     fig, axs = plt.subplots(2)
     axs[0].title.set_text("Closing price values")

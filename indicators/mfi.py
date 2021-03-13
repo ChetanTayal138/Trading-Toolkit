@@ -7,7 +7,7 @@ from utils import *
 def typical_prices(high, low, close):
     return (high + low + close)/3
 
-def calculate_mfi_ratio(typical_values, volume):
+def compute_mfi(typical_values, volume):
     
     mfis = []
     for j in range(0, len(typical_values)-13):
@@ -60,7 +60,7 @@ if __name__ == "__main__":
 
     typical_values = typical_prices(high_values, low_values, close_values)
     
-    mfi_index_values = calculate_mfi_ratio(typical_values, volume_values)
+    mfi_index_values = compute_mfi(typical_values, volume_values)
     print(mfi_index_values)
         
     fig, axs = plt.subplots(2)

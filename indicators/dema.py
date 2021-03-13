@@ -3,8 +3,18 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+def double_ema(temp, day_range):
 
+    ema_ema = exponential_moving_average(temp, day_range)
+    ema_ema_means = []
+    for k in ema:
+        ema_ema_means.append(ema_ema[k]['Mean'])
+    
+    ema_ema_means = np.array(ema_ema_means)
 
+    dema = 2 * ema_means - ema_ema_means
+
+    return dema
 
 if __name__ == "__main__":
     
@@ -28,14 +38,8 @@ if __name__ == "__main__":
     ema_means = np.array(ema_means)
     temp['Close'] = ema_means
     
-    ema_ema = exponential_moving_average(temp, day_range=15)
-    ema_ema_means = []
-    for k in ema:
-        ema_ema_means.append(ema_ema[k]['Mean'])
+    dema = double_ema(temp, day_range=15)
     
-    ema_ema_means = np.array(ema_ema_means)
-
-    dema = 2 * ema_means - ema_ema_means
 
 
     #plt.plot(ema_means, 'r')
