@@ -54,7 +54,7 @@ Alpha and Beta are indirectly derived from the Capital Asset Pricing Model (CAPM
 
 MFI stands for Money Flow Index is an oscillator based indicator that takes into account the securities volume as well as price. Hence also called volume-weighted RSI and is calculated using the formula MFI = 100 - (100/ 1 + Money Flow Ratio), where the Money Flow Ratio is calculated by taking the ratio between 14 period positive money flow and 14 period negative money flow. Money Flow in this scenario corresponds to the product of Typical Price and Volume of the asset. The value of MFI falls between 0 and 100 and values over 80 indicate an overbought asset and values under 20 indicate an oversold asset.
 
-![MFI for TSLA]((https://github.com/ChetanTayal138/Trading-Toolkit/blob/main/images/mfi.png)
+![MFI for TSLA](https://github.com/ChetanTayal138/Trading-Toolkit/blob/main/images/mfi.png)
 
 
 
@@ -62,4 +62,4 @@ MFI stands for Money Flow Index is an oscillator based indicator that takes into
 
 Rate of Change is another momentum based oscillator that measures the percentage change in price between the current price and the price n periods ago. It gives a positive value if price changes are trending positively and a negative value if price changes are trending negatively. A rising ROC will be indicative of an uptrend and vice versa.
 
-![MFI for TSLA]((https://github.com/ChetanTayal138/Trading-Toolkit/blob/main/images/roc.png)
+![MFI for TSLA](https://github.com/ChetanTayal138/Trading-Toolkit/blob/main/images/roc.png)
