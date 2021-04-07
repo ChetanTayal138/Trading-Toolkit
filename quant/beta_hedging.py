@@ -31,13 +31,15 @@ if __name__ == "__main__":
 
     alpha, beta = normal_equation(benchmark_returns, portfolio_returns)
 
-    """X2 = np.linspace(benchmark_returns.min(), benchmark_returns.max(), 100)
+    X2 = np.linspace(benchmark_returns.min(), benchmark_returns.max(), 100)
 
     predictions = alpha + beta * X2
 
     plt.scatter(benchmark_returns, portfolio_returns)
     plt.plot(X2, predictions, 'r')
-    plt.show()"""
+    plt.show()
+
+    exit()
 
     hedged_portfolio = portfolio_returns + beta * benchmark_returns * -1
 
@@ -51,4 +53,5 @@ if __name__ == "__main__":
     plt.plot(benchmark_returns)
     plt.plot(portfolio_returns)
     plt.plot(hedged_portfolio)
+    plt.legend(('Benchmark', 'Portfolio', 'Hedged Portfolio'))
     plt.show()

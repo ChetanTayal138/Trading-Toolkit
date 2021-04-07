@@ -7,31 +7,29 @@ from utils import read_df, filter_df
 
 
 def pct_change(values):
-    
+    """Calculate day by day returns"""
     curr = values[:-1]
     future = values[1:]
     pcts = (future-curr) / curr 
-
     return pcts
 
 def normality_callibration():
+    """Checks if the normality test is correctly callibrated"""
     N = 1000
     M = 1000
-
     pvalues = np.ndarray((N))
     for i in range(N):
         # Draw M samples from a normal distribution
         X = np.random.normal(0, 1, M);
         _, pvalue, _, _ = jarque_bera(X)
         pvalues[i] = pvalue
-
     # count number of pvalues below our default 0.05 cutoff
     num_significant = len(pvalues[pvalues < 0.05])
-
     print(float(num_significant) / N)
 
 def normality_test(returns):
-    _,p_value,_,_ = jarque_bera(returns)
+    """Carry out jarque_bera test on returns"""
+    _,p_value,_,_ = jarque_bera(returns)    
     if(p_value) > 0.05:
         print("Returns likely follow a normal distribution")
     else:
@@ -40,7 +38,7 @@ def normality_test(returns):
 
 if __name__ == "__main__":
 
-    df = read_df("data/nifty.csv")
+    df = read_df("data/nse/nifty.csv")
     
     START_DATE = "2015-01-01"
     END_DATE = "2020-01-01"
@@ -61,7 +59,7 @@ if __name__ == "__main__":
 
     normality_test(returns)
     print(f"Skew : {skew}, Mean : {mean}, Median : {median}, Kurtosis : {kurtosis}")
-
+    plt.title("Distribution of nifty returns for past 5 years")
     plt.hist(returns, 30)
     plt.show()
 

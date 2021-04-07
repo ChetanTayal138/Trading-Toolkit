@@ -21,7 +21,7 @@ if __name__ == "__main__":
     Y_nonlinear = 10 - (X ** 1.2) + e
     Y_heteroscedastic = 100 + (2 * X)+ (e * X)
 
-
+    
 
 
     X = X.reshape(-1,1)

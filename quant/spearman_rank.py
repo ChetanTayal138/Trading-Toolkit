@@ -33,6 +33,8 @@ if __name__ == "__main__":
     START_DATE = "2019-02-01"
     END_DATE = "2019-03-01"
     symbol_list = [x for x in os.listdir("../data/nse") if ".csv" in x]
+    print(symbol_list)
+    exit()
     
     scores = rankmodel_scores(symbol_list, START_DATE, END_DATE)
 
@@ -46,6 +48,7 @@ if __name__ == "__main__":
     print(walk_forward_returns)
 
     plt.scatter(scores, walk_forward_returns)
+    plt.title("Scores vs Walk Forward Returns")
     plt.xlabel('Scores')
     plt.ylabel('Walk Forward Returns')
     plt.show()

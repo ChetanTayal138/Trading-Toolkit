@@ -1,20 +1,20 @@
 from utils import *
 import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
 
 def normal_equation(x, y):
     x = np.hstack((np.ones((x.shape[0], 1), dtype=float), x))    
     A1 = np.linalg.inv(x.T.dot(x))
     A2 = A1.dot(x.T)
     A3 = A2.dot(y)
+   
     return A3
 
 
 if __name__ == "__main__":
 
         
-    df_1 = read_df("./tsla.csv")
-    df_2 = read_df("./snp.csv")
+    df_1 = read_df("../data/nasdaq/tsla.csv")
+    df_2 = read_df("../data/nasdaq/snp.csv")
 
     START_DATE = "2016-01-01"
     END_DATE = "2021-01-01"
