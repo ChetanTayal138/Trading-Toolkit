@@ -33,7 +33,8 @@ if __name__ == "__main__":
     NSE_200 = pd.read_csv("../data/bhavcopies/ind_nifty200list.csv")
     NSE_200_SYMBOLS = list(NSE_200['Symbol'])
     dates = get_month_dates(MONTHS)
-    
+    print("Checking for dates")
+    print(dates)
     starting_df = get_equities(f"../data/bhavcopies/cm01{MONTHS[0]}2021bhav.csv", NSE_200_SYMBOLS)
     starting_df['DATE'] = [datetime.datetime.strptime(x, '%d-%b-%Y') for x in starting_df['TIMESTAMP']]
     starting_df['NAME'] = [x for x in starting_df['SYMBOL']]
