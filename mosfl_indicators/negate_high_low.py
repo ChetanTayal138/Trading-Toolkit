@@ -99,7 +99,7 @@ if __name__ == "__main__":
     WEEKLY_PATH = "../data/weekly_nse_200"
     
     today = datetime.datetime.today()
-    print("Checking Negate for " + str(today))
+    
     
     MONTHS = []
     for i in range(1,today.month+1):
@@ -115,9 +115,7 @@ if __name__ == "__main__":
     
     today_df = pd.read_csv(f"./data/{args.type}/{dates[-1]}.csv")
     yesterday_df = pd.read_csv(f"./data/{args.type}/{dates[-2]}.csv")
-
-    
-    
+ 
     today_HH = today_df.sort_values(['HH','CLOSE'], ascending=False)[['NAME','HH']]
     yesterday_LH = yesterday_df.sort_values(['LH','CLOSE'], ascending=False)[['NAME', 'LH']]
     
@@ -140,23 +138,24 @@ if __name__ == "__main__":
     
 
     LH = generate_LH_negate(today_HH, yesterday_LH).head(10)
-    LH.to_csv("./LH.csv", index=False)
-
+    
     HH = generate_HH_negate(today_LH, yesterday_HH).head(10)
-    HH.to_csv("./HH.csv", index=False)
-
     
     LL = generate_LL_negate(today_HL, yesterday_LL).head(10)
-    LL.to_csv("./LL.csv", index=False)
-
+    
     HL = generate_HL_negate(today_LL, yesterday_HL).head(10)
-    HL.to_csv("./HL.csv", index=False)
+    
 
     LHL = generate_LHL_negate(today_HHL, yesterday_LHL).head(10) 
-    LHL.to_csv("./LHL.csv", index=False)
-
-
+    
     HHL = generate_HHL_negate(today_LHL, yesterday_HHL).head(10)
-    HHL.to_csv("./HHL.csv", index=False)
+
+    print("Saving Data Type " + str(args.type))
+    LH.to_csv(f"./data/negate/{args.type}/LH.csv", index=False)
+    HH.to_csv(f"./data/negate/{args.type}/HH.csv", index=False)
+    LL.to_csv(f"./data/negate/{args.type}/LL.csv", index=False)
+    HL.to_csv(f"./data/negate/{args.type}/HL.csv", index=False)
+    LHL.to_csv(f"./data/negate/{args.type}/LHL.csv", index=False)
+    HHL.to_csv(f"./data/negate/{args.type}/HHL.csv", index=False)
 
 
