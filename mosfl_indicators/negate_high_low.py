@@ -67,6 +67,19 @@ def generate_HL_negate(today_LL, yesterday_HL):
     return old_HL[old_HL['HL'] >= 4]
 
 
+def generate_LHL_negate(today_HHL, yesterday_LHL):
+    new_HHL_entries = today_HHL[today_HHL['HHL'] == 1]
+    old_LHL = yesterday_LHL[yesterday_LHL['NAME'].isin(new_HHL_entries['NAME'])]
+
+    return old_LHL
+
+
+def generate_HHL_negate(today_LHL, yesterday_HHL):
+    new_LHL_entries = today_LHL[today_LHL['LHL'] == 1]
+    old_HHL = yesterday_HHL[yesterday_HHL['NAME'].isin(new_LHL_entries['NAME'])]
+
+    return old_HHL
+
 
 if __name__ == "__main__":
 
@@ -119,8 +132,31 @@ if __name__ == "__main__":
     today_LL = today_df.sort_values(['LL','CLOSE'], ascending=False)[['NAME', 'LL']]
     yesterday_HL = yesterday_df.sort_values(['HL','CLOSE'], ascending=False)[['NAME', 'HL']]
 
-    print(generate_LH_negate(today_HH, yesterday_LH).head(10))
-    print(generate_HH_negate(today_LH, yesterday_HH).head(10))
+    today_HHL = today_df.sort_values(['HHL', 'CLOSE'], ascending=False)[['NAME', 'HHL']] 
+    yesterday_LHL = yesterday_df.sort_values(['LHL', 'CLOSE'], ascending=False)[['NAME', 'LHL']]
+
+    today_LHL = today_df.sort_values(['LHL', 'CLOSE'], ascending=False)[['NAME', 'LHL']] 
+    yesterday_HHL = yesterday_df.sort_values(['HHL', 'CLOSE'], ascending=False)[['NAME', 'HHL']]
     
-    print(generate_LL_negate(today_HL, yesterday_LL).head(10))    
-    print(generate_HL_negate(today_LL, yesterday_HL).head(10))  
+
+    LH = generate_LH_negate(today_HH, yesterday_LH).head(10)
+    LH.to_csv("./LH.csv", index=False)
+
+    HH = generate_HH_negate(today_LH, yesterday_HH).head(10)
+    HH.to_csv("./HH.csv", index=False)
+
+    
+    LL = generate_LL_negate(today_HL, yesterday_LL).head(10)
+    LL.to_csv("./LL.csv", index=False)
+
+    HL = generate_HL_negate(today_LL, yesterday_HL).head(10)
+    HL.to_csv("./HL.csv", index=False)
+
+    LHL = generate_LHL_negate(today_HHL, yesterday_LHL).head(10) 
+    LHL.to_csv("./LHL.csv", index=False)
+
+
+    HHL = generate_HHL_negate(today_LHL, yesterday_HHL).head(10)
+    HHL.to_csv("./HHL.csv", index=False)
+
+
