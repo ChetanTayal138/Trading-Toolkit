@@ -5,10 +5,11 @@ import datetime
 import argparse
 
 
-def get_equities(PATH, equities):
+def get_equities(PATH, equities, daily=True):
     curr_df = pd.read_csv(PATH)    
     curr_df = curr_df[curr_df['SYMBOL'].isin(equities)]
-    #curr_df = curr_df[curr_df['SERIES']=='EQ']
+    if daily:
+        curr_df = curr_df[curr_df['SERIES']=='EQ']
 
     return curr_df
 
@@ -94,7 +95,7 @@ if __name__ == "__main__":
         if args.type == 'daily':
             starting_df = get_equities(f"{PATH}/cm01{MONTHS[0]}2021bhav.csv", NSE_200_SYMBOLS)
         else:
-            starting_df = get_equities(f"{PATH}/{dates[0]}-2021.csv", NSE_200_SYMBOLS)
+            starting_df = get_equities(f"{PATH}/{dates[0]}-2021.csv", NSE_200_SYMBOLS, daily=False)
         starting_df['DATE'] = [datetime.datetime.strptime(x, '%d-%b-%Y') for x in starting_df['TIMESTAMP']]
         starting_df['NAME'] = starting_df['SYMBOL']
         
@@ -128,8 +129,8 @@ if __name__ == "__main__":
             prev_df = get_equities(f"../data/bhavcopies/cm{date_prev}{month_prev}2021bhav.csv", list(NSE_200_SYMBOLS))
             curr_df = get_equities(f"../data/bhavcopies/cm{date_curr}{month_curr}2021bhav.csv", list(NSE_200_SYMBOLS))
         else:
-            prev_df = get_equities(f"../data/weekly_nse_200/{date_prev}-{month_prev}-2021.csv", list(NSE_200_SYMBOLS))
-            curr_df = get_equities(f"../data/weekly_nse_200/{date_curr}-{month_curr}-2021.csv", list(NSE_200_SYMBOLS))
+            prev_df = get_equities(f"../data/weekly_nse_200/{date_prev}-{month_prev}-2021.csv", list(NSE_200_SYMBOLS), daily=False)
+            curr_df = get_equities(f"../data/weekly_nse_200/{date_curr}-{month_curr}-2021.csv", list(NSE_200_SYMBOLS), daily=False)
 
 
         prev_highs = prev_df.set_index('SYMBOL')['HIGH'].to_dict()

@@ -41,18 +41,31 @@ def get_week_dates(months):
 
 
 def generate_LH_negate(today_HH, yesterday_LH):
-
     new_HH_entries = today_HH[today_HH['HH'] == 1]    
     old_LH = yesterday_LH[yesterday_LH['NAME'].isin(new_HH_entries['NAME'])]
 
     return old_LH[old_LH['LH'] >= 4]
 
 def generate_HH_negate(today_LH, yesterday_HH):
-
     new_LH_entries = today_LH[today_LH['LH'] == 1]    
     old_HH = yesterday_HH[yesterday_HH['NAME'].isin(new_LH_entries['NAME'])]
 
     return old_HH[old_HH['HH'] >= 4]
+
+
+def generate_LL_negate(today_HL, yesterday_LL):
+    new_HL_entries = today_HL[today_HL['HL'] == 1]
+    old_LL = yesterday_LL[yesterday_LL['NAME'].isin(new_HL_entries['NAME'])]
+    
+    return old_LL[old_LL['LL'] >= 4]
+
+
+def generate_HL_negate(today_LL, yesterday_HL):
+    new_LL_entries = today_LL[today_LL['LL'] == 1]
+    old_HL = yesterday_HL[yesterday_HL['NAME'].isin(new_LL_entries['NAME'])]
+
+    return old_HL[old_HL['HL'] >= 4]
+
 
 
 if __name__ == "__main__":
@@ -73,6 +86,8 @@ if __name__ == "__main__":
     WEEKLY_PATH = "../data/weekly_nse_200"
     
     today = datetime.datetime.today()
+    print("Checking Negate for " + str(today))
+    
     MONTHS = []
     for i in range(1,today.month+1):
         MONTHS.append(MONTH_DICT[i])    
@@ -82,7 +97,8 @@ if __name__ == "__main__":
         dates = get_month_dates(MONTHS)
     else:
         dates = get_week_dates(MONTHS)
-        
+    
+
     
     today_df = pd.read_csv(f"./data/{args.type}/{dates[-1]}.csv")
     yesterday_df = pd.read_csv(f"./data/{args.type}/{dates[-2]}.csv")
@@ -96,8 +112,15 @@ if __name__ == "__main__":
     yesterday_HH = yesterday_df.sort_values(['HH','CLOSE'], ascending=False)[['NAME', 'HH']]
     
 
+    today_HL = today_df.sort_values(['HL','CLOSE'], ascending=False)[['NAME', 'HL']]
+    yesterday_LL = yesterday_df.sort_values(['LL','CLOSE'], ascending=False)[['NAME', 'LL']]
 
-    print(generate_LH_negate(today_HH, yesterday_LH))
-    print(generate_HH_negate(today_LH, yesterday_HH))
+
+    today_LL = today_df.sort_values(['LL','CLOSE'], ascending=False)[['NAME', 'LL']]
+    yesterday_HL = yesterday_df.sort_values(['HL','CLOSE'], ascending=False)[['NAME', 'HL']]
+
+    print(generate_LH_negate(today_HH, yesterday_LH).head(10))
+    print(generate_HH_negate(today_LH, yesterday_HH).head(10))
     
-    
+    print(generate_LL_negate(today_HL, yesterday_LL).head(10))    
+    print(generate_HL_negate(today_LL, yesterday_HL).head(10))  
