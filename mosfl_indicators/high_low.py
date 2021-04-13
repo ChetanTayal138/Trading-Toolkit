@@ -30,7 +30,7 @@ def get_month_dates(months):
 
     month_dates = []
     for month in months:
-        files = [x for x in os.listdir("../data/bhavcopies/") if f"{month}" in x]
+        files = [x for x in os.listdir("./data/input/bhavcopies/") if f"{month}" in x]
         dates = sorted([int(f[2:4]) for f in files])
         
         for d in dates:
@@ -43,7 +43,7 @@ def get_month_dates(months):
 def get_week_dates(months):
     week_dates = []
     for month in months :
-        files = [x for x in os.listdir("../data/weekly_nse_200/") if f"{month}" in x]        
+        files = [x for x in os.listdir("./data/input/weekly_nse_200/") if f"{month}" in x]        
         dates = sorted([int(f[0:2]) for f in files])
         for d in dates:
             if d < 10:
@@ -59,13 +59,13 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     
-    NSE_200 = pd.read_csv("../data/bhavcopies/ind_nifty200list.csv")
+    NSE_200 = pd.read_csv("./data/input/bhavcopies/ind_nifty200list.csv")
     NSE_200_SYMBOLS = list(NSE_200['Symbol'])
 
     MONTH_DICT = {1:"JAN", 2:"FEB", 3:"MAR", 4:"APR", 5:"MAY", 6:"JUN", 7:"JUL", 8:"AUG", 9:"SEP", 10:"OCT", 11:"NOV", 12:"DEC"}
 
-    DAILY_PATH = "../data/bhavcopies"
-    WEEKLY_PATH = "../data/weekly_nse_200"
+    DAILY_PATH = "./data/input/bhavcopies"
+    WEEKLY_PATH = "./data/input/weekly_nse_200"
 
     today = datetime.datetime.today()
     
@@ -88,7 +88,7 @@ if __name__ == "__main__":
         date_prev,month_prev = prev_date.split('-')
         yesterdays_date = datetime.datetime.strptime(f"{prev_date}-2021", '%d-%b-%Y')
         
-        data = pd.read_csv(f"./data/{args.type}/{yesterdays_date}.csv")
+        data = pd.read_csv(f"./data/output/{args.type}/{yesterdays_date}.csv")
         data['SYMBOL'] = data['NAME']
         data = data.set_index('SYMBOL').T.to_dict()
     else:
@@ -126,11 +126,11 @@ if __name__ == "__main__":
         print("Last date - " + str(yesterdays_date))
         print("Checking for date - " + str(curr_date))
         if args.type == 'daily':    
-            prev_df = get_equities(f"../data/bhavcopies/cm{date_prev}{month_prev}2021bhav.csv", list(NSE_200_SYMBOLS))
-            curr_df = get_equities(f"../data/bhavcopies/cm{date_curr}{month_curr}2021bhav.csv", list(NSE_200_SYMBOLS))
+            prev_df = get_equities(f"./data/input/bhavcopies/cm{date_prev}{month_prev}2021bhav.csv", list(NSE_200_SYMBOLS))
+            curr_df = get_equities(f"./data/input/bhavcopies/cm{date_curr}{month_curr}2021bhav.csv", list(NSE_200_SYMBOLS))
         else:
-            prev_df = get_equities(f"../data/weekly_nse_200/{date_prev}-{month_prev}-2021.csv", list(NSE_200_SYMBOLS), daily=False)
-            curr_df = get_equities(f"../data/weekly_nse_200/{date_curr}-{month_curr}-2021.csv", list(NSE_200_SYMBOLS), daily=False)
+            prev_df = get_equities(f"./data/input/weekly_nse_200/{date_prev}-{month_prev}-2021.csv", list(NSE_200_SYMBOLS), daily=False)
+            curr_df = get_equities(f"./data/input/weekly_nse_200/{date_curr}-{month_curr}-2021.csv", list(NSE_200_SYMBOLS), daily=False)
 
 
         prev_highs = prev_df.set_index('SYMBOL')['HIGH'].to_dict()
@@ -202,6 +202,11 @@ if __name__ == "__main__":
                     data[symbol]['DATE'] = todays_date
                     data[symbol]['HH'] = 0
 
+                else:
+                    data[symbol]['DATE'] = todays_date
+                    data[symbol]['HH'] = 0
+                    data[symbol]['LH'] = 0
+
                 
                 if curr_lows[symbol] < prev_lows[symbol]:
                     if(data[symbol]["LL"] != 0):
@@ -222,6 +227,11 @@ if __name__ == "__main__":
 
                     data[symbol]['DATE'] = todays_date
                     data[symbol]['LL'] = 0
+
+                else:
+                    data[symbol]['DATE'] = todays_date
+                    data[symbol]['HL'] = 0
+                    data[symbol]['LL'] = 0
             
             except Exception as e:
                 
@@ -234,6 +244,6 @@ if __name__ == "__main__":
 
         
         print(data_df[['NAME','HHL','CLOSE']].sort_values(['HHL','CLOSE'],ascending=False).head(10))
-        data_df.to_csv(f"data/{args.type}/{todays_date}.csv", index=False)
+        data_df.to_csv(f"data/output/{args.type}/{todays_date}.csv", index=False)
         
         

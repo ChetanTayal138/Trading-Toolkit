@@ -17,7 +17,7 @@ def get_month_dates(months):
 
     month_dates = []
     for month in months:
-        files = [x for x in os.listdir("../data/bhavcopies/") if f"{month}" in x]
+        files = [x for x in os.listdir("./data/input/bhavcopies/") if f"{month}" in x]
         dates = sorted([int(f[2:4]) for f in files])
         
         for d in dates:
@@ -30,7 +30,7 @@ def get_month_dates(months):
 def get_week_dates(months):
     week_dates = []
     for month in months :
-        files = [x for x in os.listdir("../data/weekly_nse_200/") if f"{month}" in x]        
+        files = [x for x in os.listdir("./data/input/weekly_nse_200/") if f"{month}" in x]        
         dates = sorted([int(f[0:2]) for f in files])
         for d in dates:
             if d < 10:
@@ -48,11 +48,11 @@ if __name__ == "__main__":
 
     
     MONTHS = ["JAN","FEB","MAR", "APR"]
-    NSE_200 = pd.read_csv("../data/bhavcopies/ind_nifty200list.csv")    
+    NSE_200 = pd.read_csv("./data/input/bhavcopies/ind_nifty200list.csv")    
     NSE_200_SYMBOLS = list(NSE_200['Symbol'])
 
-    DAILY_PATH = "../data/bhavcopies"
-    WEEKLY_PATH = "../data/weekly_nse_200"
+    DAILY_PATH = "./data/input/bhavcopies"
+    WEEKLY_PATH = "./data/input/weekly_nse_200"
 
 
 
@@ -85,15 +85,15 @@ if __name__ == "__main__":
 
 
         if args.type == 'weekly':
-            third_df = get_equities(f"../data/weekly_nse_200/{third_day_date}-{third_day_month}-2021.csv", list(NSE_200_SYMBOLS), daily=False)
-            second_df = get_equities(f"../data/weekly_nse_200/{second_day_date}-{second_day_month}-2021.csv", list(NSE_200_SYMBOLS), daily=False)
-            first_df = get_equities(f"../data/weekly_nse_200/{first_day_date}-{first_day_month}-2021.csv", list(NSE_200_SYMBOLS), daily=False)
+            third_df = get_equities(f"./data/input/weekly_nse_200/{third_day_date}-{third_day_month}-2021.csv", list(NSE_200_SYMBOLS), daily=False)
+            second_df = get_equities(f"./data/input/weekly_nse_200/{second_day_date}-{second_day_month}-2021.csv", list(NSE_200_SYMBOLS), daily=False)
+            first_df = get_equities(f"./data/input/weekly_nse_200/{first_day_date}-{first_day_month}-2021.csv", list(NSE_200_SYMBOLS), daily=False)
 
 
         else:
-            third_df = get_equities(f"../data/bhavcopies/cm{third_day_date}{third_day_month}2021bhav.csv", list(NSE_200_SYMBOLS))
-            second_df = get_equities(f"../data/bhavcopies/cm{second_day_date}{second_day_month}2021bhav.csv", list(NSE_200_SYMBOLS))
-            first_df = get_equities(f"../data/bhavcopies/cm{first_day_date}{first_day_month}2021bhav.csv", list(NSE_200_SYMBOLS))
+            third_df = get_equities(f"./data/input/bhavcopies/cm{third_day_date}{third_day_month}2021bhav.csv", list(NSE_200_SYMBOLS))
+            second_df = get_equities(f"./data/input/bhavcopies/cm{second_day_date}{second_day_month}2021bhav.csv", list(NSE_200_SYMBOLS))
+            first_df = get_equities(f"./data/input/bhavcopies/cm{first_day_date}{first_day_month}2021bhav.csv", list(NSE_200_SYMBOLS))
 
 
         for symbol in NSE_200_SYMBOLS:
