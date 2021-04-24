@@ -1,124 +1,112 @@
-import datetime  # For datetime objects
-import os.path  # To manage paths
-import sys  # To find out the script name (in argv[0])
+import argparse
+import datetime
+
 import backtrader as bt
+import backtrader.feeds as btfeeds
+import backtrader.indicators as btind
 
 
-class TestStrategy(bt.Strategy):
+import sys
+sys.path.append("../quant")
+from alphabeta_regression import normal_equation
 
-    def log(self, txt, dt=None):
-        ''' Logging function fot this strategy'''
-        dt = dt or self.datas[0].datetime.date(0)
-        print('%s, %s' % (dt.isoformat(), txt))
+import argparse
 
-    def __init__(self):
-        # Keep a reference to the "close" line in the data[0] dataseries
-        self.dataclose = self.datas[0].close
-
-        # To keep track of pending orders and buy price/commission
-        self.order = None
-        self.buyprice = None
-        self.buycomm = None
-
-    def next(self):
-        # Simply log the closing price of the series from the reference
-        self.log('Close, %.2f' % self.dataclose[0])
-
-        # Check if an order is pending ... if yes, we cannot send a 2nd one
-        if self.order:
-            return
-
-        # Check if we are in the market
-        if not self.position:
-
-            # Not yet ... we MIGHT BUY if ...
-            if self.dataclose[0] < self.dataclose[-1]:
-                    # current close less than previous close
-
-                    if self.dataclose[-1] < self.dataclose[-2]:
-                        # previous close less than the previous close
-
-                        # BUY, BUY, BUY!!! (with default parameters)
-                        self.log('BUY CREATE, %.2f' % self.dataclose[0])
-
-                        # Keep track of the created order to avoid a 2nd order
-                        self.order = self.buy()
-
-        else:
-
-            # Already in the market ... we might sell
-            if len(self) >= (self.bar_executed + 5):
-                # SELL, SELL, SELL!!! (with all possible default parameters)
-                self.log('SELL CREATE, %.2f' % self.dataclose[0])
-
-                # Keep track of the created order to avoid a 2nd order
-                self.order = self.sell()
+from strategy import PairTradingStrategy
 
 
-    def notify_order(self, order):
-        if order.status in [order.Submitted, order.Accepted]:
-            # Buy/Sell order submitted/accepted to/by broker - Nothing to do
-            return
-
-        # Check if an order has been completed
-        # Attention: broker could reject order if not enough cash
-        if order.status in [order.Completed]:
-            if order.isbuy():
-                self.log(
-                    'BUY EXECUTED, Price: %.2f, Cost: %.2f, Comm %.2f' %
-                    (order.executed.price,
-                     order.executed.value,
-                     order.executed.comm))
-
-                self.buyprice = order.executed.price
-                self.buycomm = order.executed.comm
-            else:  # Sell
-                self.log('SELL EXECUTED, Price: %.2f, Cost: %.2f, Comm %.2f' %
-                         (order.executed.price,
-                          order.executed.value,
-                          order.executed.comm))
-
-            self.bar_executed = len(self)
-
-        elif order.status in [order.Canceled, order.Margin, order.Rejected]:
-            self.log('Order Canceled/Margin/Rejected')
-
-        self.order = None
 
 
-if __name__ == '__main__':
-    # Create a cerebro entity
+def runstrategy():
+
+    args = parse_args()
+
     cerebro = bt.Cerebro()
 
-    cerebro.addstrategy(TestStrategy)
+    fromdate = datetime.datetime.strptime(args.fromdate, '%Y-%m-%d')
+    todate = datetime.datetime.strptime(args.todate, '%Y-%m-%d')
 
-    datapath = "../data/nse/Basket/KOTAKBANK.NS.csv"
+    data0 = btfeeds.YahooFinanceCSVData(
+        dataname=args.data0,
+        fromdate=fromdate,
+        todate=todate)
 
-    # Create a Data Feed
-    data = bt.feeds.YahooFinanceCSVData(
-        dataname=datapath,
-        # Do not pass values before this date
-        fromdate=datetime.datetime(2016, 1, 1),
-        # Do not pass values after this date
-        todate=datetime.datetime(2020, 12, 31),
-        reverse=False)
+    data1 = btfeeds.YahooFinanceCSVData(
+        dataname=args.data1,
+        fromdate=fromdate,
+        todate=todate)
+    
+    cerebro.adddata(data0)
+    cerebro.adddata(data1)
 
-    # Add the Data Feed to Cerebro
+    # Add the strategy
+    cerebro.addstrategy(PairTradingStrategy,
+                        
+                        stake=args.stake)
 
-    print(data)
-    cerebro.adddata(data)
+    # Add the commission - only stocks like a for each operation
+    cerebro.broker.setcash(args.cash)
 
+    # Add the commission - only stocks like a for each operation
+    cerebro.broker.setcommission(commission=args.commperc)
 
-    # Set our desired cash start
-    cerebro.broker.setcash(100000.0)
-    cerebro.broker.setcommission(commission=0.001)
-
-
-    # Print out the starting conditions
-    print('Starting Portfolio Value: %.2f' % cerebro.broker.getvalue())
-
-    # Run over everything
+    # And run it
     cerebro.run()
 
-    # Print out the final result
-    print('Final Portfolio Value: %.2f' % cerebro.broker.getvalue())
+    # Plot if requested
+    if args.plot:
+        cerebro.plot(numfigs=args.numfigs, volume=False, zdown=False)
+
+
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='MultiData Strategy')
+
+    parser.add_argument('--data0', '-d0',
+                        default='../data/nse/NSE_1920/INDIGO.csv',
+                        help='1st data into the system')
+
+    parser.add_argument('--data1', '-d1',
+                        default='../data/nse/NSE_1920/SUNPHARMA.csv',
+                        help='2nd data into the system')
+
+    parser.add_argument('--fromdate', '-f',
+                        default='2016-01-01',
+                        help='Starting date in YYYY-MM-DD format')
+
+    parser.add_argument('--todate', '-t',
+                        default='2020-01-01',
+                        help='Starting date in YYYY-MM-DD format')
+
+
+    parser.add_argument('--cash', default=100000, type=int,
+                        help='Starting Cash')
+
+    parser.add_argument('--runnext', action='store_true',
+                        help='Use next by next instead of runonce')
+
+    parser.add_argument('--nopreload', action='store_true',
+                        help='Do not preload the data')
+
+    parser.add_argument('--oldsync', action='store_true',
+                        help='Use old data synchronization method')
+
+    parser.add_argument('--commperc', default=0.005, type=float,
+                        help='Percentage commission (0.005 is 0.5 percent')
+
+    parser.add_argument('--stake', default=10, type=int,
+                        help='Stake to apply in each operation')
+
+    parser.add_argument('--plot', '-p', default=False, action='store_true',
+                        help='Plot the read data')
+
+    parser.add_argument('--numfigs', '-n', default=1,
+                        help='Plot using numfigs figures')
+
+    return parser.parse_args()
+
+
+if __name__ == "__main__":
+
+    runstrategy()

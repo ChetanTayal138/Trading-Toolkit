@@ -5,8 +5,34 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.manifold import TSNE
 import matplotlib.cm as cm
+from data import filter_df, read_df, generate_returns
 
+def apply_OPTICS(X, df_returns, min_samples, max_eps=2, xi=0.05, cluster_method='xi'):
+        """
 
+        :param X:
+        :param df_returns:
+        :param min_samples:
+        :param max_eps:
+        :param xi:
+        :param eps:
+        :return:
+        """
+        clf = OPTICS(min_samples=min_samples, max_eps=max_eps, xi=xi, metric='euclidean', cluster_method=cluster_method)
+        print(clf)
+
+        clf.fit(X)
+        labels = clf.labels_
+        n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
+        print("Clusters discovered: %d" % n_clusters_)
+
+        clustered_series_all = pd.Series(index=df_returns.columns, data=labels.flatten())
+        clustered_series = clustered_series_all[clustered_series_all != -1]
+
+        counts = clustered_series.value_counts()
+        print("Pairs to evaluate: %d" % (counts * (counts - 1) / 2).sum())
+
+        return clustered_series_all, clustered_series, counts, clf
 
 def apply_DBSCAN(eps, min_samples, X, df_returns):
         """
@@ -80,13 +106,13 @@ def plot_TSNE(X, clf, clustered_series_all):
         c=labels[labels!=-1],
         cmap=cm.Paired
     )
-    #for i, ticker in enumerate(tickers):
-    #    plt.annotate(ticker, (x[i]-20, y[i]+12), size=15)
+    for i, ticker in enumerate(tickers):
+        plt.annotate(ticker, (x[i], y[i]), size=5)
 
     # remaining etfs, not clustered
-    x = X_tsne[(clustered_series_all==-1).values, 0]
-    y = X_tsne[(clustered_series_all==-1).values, 1]
-    tickers = list(clustered_series_all[clustered_series_all == -1].index)
+    #x = X_tsne[(clustered_series_all==-1).values, 0]
+    #y = X_tsne[(clustered_series_all==-1).values, 1]
+    #tickers = list(clustered_series_all[clustered_series_all == -1].index)
 
     # WARNING: elimintate outliers
     #outliers = ['DTO','SCO']
@@ -98,15 +124,9 @@ def plot_TSNE(X, clf, clustered_series_all):
     x = np.array([i for i in x if i not in to_remove_x])
     y= np.array([i for i in y if i not in to_remove_y])"""
 
-    plt.scatter(
-        x,
-        y,
-        s=50,
-        alpha=0.20,
-        c='black'
-    )
+    #plt.scatter(x,y,s=50,alpha=0.20,c='black')
     #for i, ticker in enumerate(tickers):
-    #    plt.annotate(ticker, (x[i]+20, y[i]+20))#, arrowprops={'arrowstyle':'simple'})
+    #    plt.annotate(ticker, (x[i], y[i]))#, arrowprops={'arrowstyle':'simple'})
         
     plt.title('OPTICS clusters visualized with t-SNE', size=16);
     plt.xlabel('t-SNE Dim. 1', position=(0.92,0), size=20)
@@ -115,4 +135,14 @@ def plot_TSNE(X, clf, clustered_series_all):
     ax.set_yticks(range(-50, 51, 600))
     #plt.savefig('DBSCAN_2014_2018_eps0_15.png', bbox_inches='tight', pad_inches=0.01)
     plt.savefig('OPTICS_2013_2017.png', bbox_inches='tight', pad_inches=0.1)
+    plt.show()
+
+
+def plot_cluster(cluster_elements, stock_info):
+    number_of_elements = len(cluster_elements)
+    for s in cluster_elements:
+        close_values = filter_df("2016-01-01", "2021-01-01", read_df(f"../data/nse/NSE_1920/{s}.csv", column_names=['Date','Close','Name']))['Close'].values
+        plt.plot(np.log(close_values))
+
+
     plt.show()
