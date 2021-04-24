@@ -13,14 +13,14 @@ import datetime
 def generate_returns_dataframe(start, end, download=False):
 
 
-    SYMBOLS = download_yahoo_data(download=download)
+    SYMBOLS = download_yahoo_data(download=download) # Will return all symbols of Nifty
     stock_final = pd.DataFrame()
     
     for s in SYMBOLS:
 
         try:
             print("Reading data for " + s)
-            asset_df = filter_df("2016-01-01", "2021-01 -01", read_df(f"../data/nse/NSE_1920/{s}.csv"))
+            asset_df = filter_df(start, end, read_df(f"../data/nse/NSE_1920/{s}.csv"))
             print(len(asset_df))
             if len(asset_df)==1231:
                 asset_prices = asset_df['Close'].values
@@ -55,28 +55,88 @@ def generate_info_dataframe(stock_final):
     return True
 
 
+def generate_clusterwise_pairs(counts, clustered_series, label_n, start, end):
+    all_pairs = []
+    total_checks = 0
+    total_pairs = 0
+
+    for label_n in range(len(counts)):
+
+        elements_cluster_n = list(clustered_series[clustered_series == label_n].index)
+        n = len(elements_cluster_n)
+        
+        cluster_dataframe = pd.DataFrame()
+        print("Cluster " + str(label_n))
+        possible_pairs_in_cluster = (n * (n-1)) / 2
+        total_pairs = total_pairs + possible_pairs_in_cluster
+
+        for el in elements_cluster_n:
+            #print(f"Name : {el} Sector : {stock_info_dict[el]}")
+            asset_df = filter_df(start, end, read_df(f"../data/nse/NSE_1920/{el}.csv", column_names=['Close','Date']))
+            cluster_dataframe[el] = asset_df['Close']
+
+
+        PC = PairChecker(elements_cluster_n, cluster_dataframe)
+        current_pairs, num_checks = PC.check_cointegration()
+        total_checks = total_checks + num_checks
+
+        for pair in current_pairs:
+
+            all_pairs.append(pair)
+
+    return all_pairs, total_pairs
+
+
+def generate_sectorwise_pairs(sectorwise_clusters, start, end):
+    all_pairs = []
+    total_checks = 0
+    total_pairs = 0
+
+    for sector in tqdm(sectorwise_clusters):
+
+        elements_cluster_n = sectorwise_clusters[sector]
+        n = len(elements_cluster_n)
+        
+        cluster_dataframe = pd.DataFrame()
+        print("Cluster " + str(sector))
+        possible_pairs_in_cluster = (n * (n-1)) / 2
+        total_pairs = total_pairs + possible_pairs_in_cluster
+
+        for el in elements_cluster_n:
+            #print(f"Name : {el} Sector : {stock_info_dict[el]}")
+            asset_df = filter_df(start, end, read_df(f"../data/nse/NSE_1920/{el}.csv", column_names=['Close','Date']))
+            cluster_dataframe[el] = asset_df['Close']
+
+
+        PC = PairChecker(elements_cluster_n, cluster_dataframe)
+        current_pairs, num_checks = PC.check_cointegration()
+        total_checks = total_checks + num_checks
+
+        for pair in current_pairs:
+            all_pairs.append(pair)
+
+    return all_pairs, total_pairs
+
+    
 
 
 if __name__ == "__main__":
 
-    START = datetime.datetime(2016,1,1)
-    END = datetime.datetime(2021,4,1)
-
+    #START = datetime.datetime(2020,1,1)
+    #END = datetime.datetime(2021,4,1)
     #stock_final = generate_returns_dataframe(download=False, START, END)
     #generate_info_dataframe(stock_final)
 
     NSE_500_SYMBOLS = list(pd.read_csv("../data/bhavcopies/ind_nifty500list.csv")['Symbol'].values)
     
     stock_final = pd.read_csv("./stock_final.csv", index_col = 'Date')
-    
     stock_final_columns = list(stock_final.columns)
 
     INTERSECTING_NSE_500 = [x for x in NSE_500_SYMBOLS if x in stock_final_columns]
 
 
     stock_final = stock_final[INTERSECTING_NSE_500]
-    print("Final Data")
-    print(stock_final.shape)
+    
     stock_info = pd.read_csv("./stock_info.csv", usecols=['Symbol', 'Sector'])
     stock_info = stock_info[stock_info['Symbol'].isin(INTERSECTING_NSE_500)]
     
@@ -85,8 +145,6 @@ if __name__ == "__main__":
 
 
     sectors = stock_info['Sector'].unique()
-    print(sectors)
-
     sectorwise_clusters = {}
 
     for s in sectors:
@@ -108,8 +166,8 @@ if __name__ == "__main__":
 
     
     clustered_series_all, clustered_series, counts, clf = apply_OPTICS(X, stock_final, min_samples=3,cluster_method='xi')
-
     #clustered_series_all, clustered_series, counts, clf = apply_DBSCAN(0.15, 4, X, stock_final)
+
     plot_TSNE(X,clf, clustered_series_all)
 
     for label_n in range(len(counts)):
@@ -122,82 +180,20 @@ if __name__ == "__main__":
         for el in elements_cluster_n:
             print(f"Name : {el} Sector : {stock_info_dict[el]}")
     
-    #plt.ylabel('Normalized log prices', size=12)
-    #plt.xlabel('Date', size=12)
-
-    all_pairs = []
-    total_checks = 0
-    total_pairs = 0
-
-    for sector in tqdm(sectorwise_clusters):
-
-        elements_cluster_n = sectorwise_clusters[sector]
-        n = len(elements_cluster_n)
-        
-        cluster_dataframe = pd.DataFrame()
-        print("Cluster " + str(sector))
-        possible_pairs_in_cluster = (n * (n-1)) / 2
-        total_pairs = total_pairs + possible_pairs_in_cluster
-
-        for el in elements_cluster_n:
-            #print(f"Name : {el} Sector : {stock_info_dict[el]}")
-            asset_df = filter_df("2016-01-01", "2020-01 -01", read_df(f"../data/nse/NSE_1920/{el}.csv", column_names=['Close','Date']))
-            cluster_dataframe[el] = asset_df['Close']
-
-
-        PC = PairChecker(elements_cluster_n, cluster_dataframe)
-        current_pairs, num_checks = PC.check_cointegration()
-        total_checks = total_checks + num_checks
-
-        for pair in current_pairs:
-            all_pairs.append(pair)
-
-
-
-   
+  
     
-    """all_pairs = []
-    total_checks = 0
-    total_pairs = 0
 
-    for label_n in range(len(counts)):
+    #all_pairs, total_pairs = generate_sectorwise_pairs(sectorwise_clusters, "2018-01-01", "2020-01-01")
+    
+    #df = pd.DataFrame(all_pairs, columns = ['Asset 1', 'Asset 2'])
+    #df.to_csv("./sectorwise_pairs.csv", index=False)
+    #print(f"Total Number of Pairs Found are - {len(all_pairs)}")
+    #print(f"Total Possible Pairs - {total_pairs}" )
 
-        elements_cluster_n = list(clustered_series[clustered_series == label_n].index)
-        n = len(elements_cluster_n)
-        
-        cluster_dataframe = pd.DataFrame()
-        print("Cluster " + str(label_n))
-        possible_pairs_in_cluster = (n * (n-1)) / 2
-        total_pairs = total_pairs + possible_pairs_in_cluster
+    
+    all_pairs, total_pairs = generate_clusterwise_pairs(counts, clustered_series, label_n, "2018-01-01", "2020-01-01")
 
-        for el in elements_cluster_n:
-            #print(f"Name : {el} Sector : {stock_info_dict[el]}")
-            asset_df = filter_df("2016-01-01", "2020-01 -01", read_df(f"../data/nse/NSE_1920/{el}.csv", column_names=['Close','Date']))
-            cluster_dataframe[el] = asset_df['Close']
-
-
-        PC = PairChecker(elements_cluster_n, cluster_dataframe)
-        current_pairs, num_checks = PC.check_cointegration()
-        total_checks = total_checks + num_checks
-
-        for pair in current_pairs:
-
-            all_pairs.append(pair)"""
-
-
-
-
-
-    print(all_pairs)
     df = pd.DataFrame(all_pairs, columns = ['Asset 1', 'Asset 2'])
-    df.to_csv("./sectorwise_pairs.csv", index=False)
+    df.to_csv("./clusterwise_pairs.csv", index=False)
     print(f"Total Number of Pairs Found are - {len(all_pairs)}")
     print(f"Total Possible Pairs - {total_pairs}" )
-    print(f"Total Checks Performed - {total_checks}")
-
-        #plot_cluster(elements_cluster_n, stock_info)
-
-        
-    #print(clustered_series_all)
-    #print(clustered_series) #Contains only stocks belonging to a cluster
-

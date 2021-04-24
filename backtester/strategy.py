@@ -19,15 +19,15 @@ from spreadindicator import SpreadIndicator
 class PairTradingStrategy(bt.Strategy):
 
     params = dict(
-        period=2,
+        period=10,
         stake=10,
         qty1=0,
         qty2=0,
         printout=True,
-        upper=2,
-        lower=-2,
-        up_medium=0.5,
-        low_medium=-0.5,
+        upper=2.2,
+        lower=-2.2,
+        up_medium=0.2,
+        low_medium=-0.2,
         status=0,
         portfolio_value=10000,
     )
@@ -78,7 +78,7 @@ class PairTradingStrategy(bt.Strategy):
         #print(type(self.spread_indicator))
         #self.my_spread = self.spread_indicator.lines.spread
         self.transform = btind.OLS_TransformationN(self.data0, self.data1,
-                                                   period=10)
+                                                   period=self.p.period)
         
         self.zscore = self.transform.zscore
         
@@ -109,8 +109,8 @@ class PairTradingStrategy(bt.Strategy):
             print('Data0 dt:', self.data0.datetime.datetime())
             print('Data1 dt:', self.data1.datetime.datetime())"""
 
-        print('status is', self.status)
-        print('Normalized Spread is', self.zscore[0])
+        #print('status is', self.status)
+        #print('Normalized Spread is', self.zscore[0])
         #arr = vars(self.zscore)['array']
 
 
@@ -123,13 +123,13 @@ class PairTradingStrategy(bt.Strategy):
             value = 0.5 * self.portfolio_value  # Divide the cash equally
             x = int(value / (self.data0.close))  # Find the number of shares for Stock1
             y = int(value / (self.data1.close))  # Find the number of shares for Stock2
-            print('x + self.qty1 is', x + self.qty1)
-            print('y + self.qty2 is', y + self.qty2)
+            #print('x + self.qty1 is', x + self.qty1)
+            #print('y + self.qty2 is', y + self.qty2)
 
             # Placing the order
-            self.log('SELL CREATE %s, price = %.2f, qty = %d' % ("PEP", self.data0.close[0], x + self.qty1))
+            #self.log('SELL CREATE %s, price = %.2f, qty = %d' % ("PEP", self.data0.close[0], x + self.qty1))
             self.sell(data=self.data0, size=(x + self.qty1))  # Place an order for buying y + qty2 shares
-            self.log('BUY CREATE %s, price = %.2f, qty = %d' % ("KO", self.data1.close[0], y + self.qty2))
+            #self.log('BUY CREATE %s, price = %.2f, qty = %d' % ("KO", self.data1.close[0], y + self.qty2))
             self.buy(data=self.data1, size=(y + self.qty2))  # Place an order for selling x + qty1 shares
 
             # Updating the counters with new value
@@ -150,9 +150,9 @@ class PairTradingStrategy(bt.Strategy):
             print('y + self.qty2 is', y + self.qty2)
 
             # Place the order
-            self.log('BUY CREATE %s, price = %.2f, qty = %d' % ("PEP", self.data0.close[0], x + self.qty1))
+            #self.log('BUY CREATE %s, price = %.2f, qty = %d' % ("PEP", self.data0.close[0], x + self.qty1))
             self.buy(data=self.data0, size=(x + self.qty1))  # Place an order for buying x + qty1 shares
-            self.log('SELL CREATE %s, price = %.2f, qty = %d' % ("KO", self.data1.close[0], y + self.qty2))
+            #self.log('SELL CREATE %s, price = %.2f, qty = %d' % ("KO", self.data1.close[0], y + self.qty2))
             self.sell(data=self.data1, size=(y + self.qty2))  # Place an order for selling y + qty2 shares
 
             # Updating the counters with new value
@@ -163,13 +163,13 @@ class PairTradingStrategy(bt.Strategy):
 
             # Step 4: Check conditions for No Trade
             # If the z-score is within the two bounds, close all
-        """
+        
         elif (self.zscore[0] < self.up_medium and self.zscore[0] > self.low_medium):
-            self.log('CLOSE LONG %s, price = %.2f' % ("PEP", self.data0.close[0]))
+            #self.log('CLOSE %s, price = %.2f' % ("PEP", self.data0.close[0]))
             self.close(self.data0)
-            self.log('CLOSE LONG %s, price = %.2f' % ("KO", self.data1.close[0]))
+            #self.log('CLOSE  %s, price = %.2f' % ("KO", self.data1.close[0]))
             self.close(self.data1)
-        """
+        
 
     def stop(self):
         print('==================================================')
