@@ -7,19 +7,19 @@ import requests
 import io
 from sklearn.decomposition import PCA
 from sklearn import preprocessing
-
+import os
 
 def download_yahoo_data(start, end, download=True):
 
     
-    NSE_df = pd.read_csv("../data/nse/nifty_all.csv").dropna()
+    NSE_df = pd.read_csv("../data/nse/NSE_1920/ind_nifty500list.csv").dropna()
     NSE_SYMBOLS = list(NSE_df['Symbol'].values)
     
     if download is False:
         return NSE_SYMBOLS
 
-    for i in NSE_SYMBOLS:  
-       
+    for i in NSE_SYMBOLS:
+        
         print("Fetching " + str(i) + "..." )
      
         try:
@@ -77,8 +77,12 @@ def apply_PCA(x, components, svd_solver='auto', random_state=0):
 
 
 if __name__ == "__main__":
+    l = os.listdir("../data/nse/NSE_1920")
+    print(len(l))
     
-    #SYMBOLS = download_yahoo_data(download=False)
+    SYMBOLS = download_yahoo_data(start="2016-01-01", end="2021-04-01", download=False)
+    print(SYMBOLS)
+    exit()
 
     from tiingo import TiingoClient
 

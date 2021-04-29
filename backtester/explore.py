@@ -3,8 +3,8 @@ from tqdm import tqdm
 from data import download_yahoo_data, generate_returns, read_df, filter_df, apply_PCA
 import pandas as pd
 import numpy as np
-from clustering import apply_DBSCAN, apply_OPTICS, plot_TSNE, plot_cluster
-from pairs import PairChecker
+from utils.clustering import apply_DBSCAN, apply_OPTICS, plot_TSNE, plot_cluster
+from utils.pairs import PairChecker
 import matplotlib.pyplot as plt
 import datetime
 
@@ -13,30 +13,32 @@ import datetime
 def generate_returns_dataframe(start, end, download=False):
 
 
-    SYMBOLS = download_yahoo_data(download=download) # Will return all symbols of Nifty
+    SYMBOLS = download_yahoo_data(start, end, download=download) # Will return all symbols of Nifty
     stock_final = pd.DataFrame()
     
     for s in SYMBOLS:
 
         try:
             print("Reading data for " + s)
-            asset_df = filter_df(start, end, read_df(f"../data/nse/NSE_1920/{s}.csv"))
-            print(len(asset_df))
-            if len(asset_df)==1231:
+            asset_df = filter_df(start, end, read_df(f"../data/nse/NSE_1920/{s}.csv", column_names=['Date', 'Sector', 'Close']))
+
+            if len(asset_df)==1292:
+
+
                 asset_prices = asset_df['Close'].values
                 asset_returns = generate_returns(asset_prices)
                 asset_df['Returns'] = asset_returns
                 stock_final[s] = asset_df['Returns']
                 stock_final['Date'] = asset_df['Date']
 
-            
-
         except Exception as e:
             print(e)
             print("Error reading...")
 
+    print(len(stock_final))
+    print(stock_final.head())
     stock_final = stock_final.set_index('Date').dropna()
-    stock_final.to_csv("./stock_final.csv")
+    stock_final.to_csv("./data/stock_final.csv")
     return stock_final
 
 def generate_info_dataframe(stock_final):
@@ -51,7 +53,7 @@ def generate_info_dataframe(stock_final):
 
     
     symbol_info_df = pd.DataFrame(list(symbols_info.items()), columns = ['Symbol', 'Sector'])
-    symbol_info_df.to_csv("./stock_info.csv")
+    symbol_info_df.to_csv("./data/stock_info.csv")
     return True
 
 
@@ -122,22 +124,24 @@ def generate_sectorwise_pairs(sectorwise_clusters, start, end):
 
 if __name__ == "__main__":
 
-    #START = datetime.datetime(2020,1,1)
+    #START = datetime.datetime(2016,1,1)
     #END = datetime.datetime(2021,4,1)
-    #stock_final = generate_returns_dataframe(download=False, START, END)
+    #stock_final = generate_returns_dataframe(START, END, download=False)
     #generate_info_dataframe(stock_final)
-
-    NSE_500_SYMBOLS = list(pd.read_csv("../data/bhavcopies/ind_nifty500list.csv")['Symbol'].values)
     
-    stock_final = pd.read_csv("./stock_final.csv", index_col = 'Date')
+    NSE_500_SYMBOLS = list(pd.read_csv("../data/nse/NSE_1920/ind_nifty500list.csv")['Symbol'].values)
+    
+    stock_final = pd.read_csv("./data/stock_final.csv", index_col = 'Date')
     stock_final_columns = list(stock_final.columns)
 
     INTERSECTING_NSE_500 = [x for x in NSE_500_SYMBOLS if x in stock_final_columns]
 
 
     stock_final = stock_final[INTERSECTING_NSE_500]
+    print(len(stock_final.columns))
     
-    stock_info = pd.read_csv("./stock_info.csv", usecols=['Symbol', 'Sector'])
+    
+    stock_info = pd.read_csv("./data/stock_info.csv", usecols=['Symbol', 'Sector'])
     stock_info = stock_info[stock_info['Symbol'].isin(INTERSECTING_NSE_500)]
     
     stock_info_dict = dict(stock_info.values)
@@ -191,9 +195,9 @@ if __name__ == "__main__":
     #print(f"Total Possible Pairs - {total_pairs}" )
 
     
-    all_pairs, total_pairs = generate_clusterwise_pairs(counts, clustered_series, label_n, "2018-01-01", "2020-01-01")
+    all_pairs, total_pairs = generate_clusterwise_pairs(counts, clustered_series, label_n, "2017-01-01", "2020-01-01")
 
     df = pd.DataFrame(all_pairs, columns = ['Asset 1', 'Asset 2'])
-    df.to_csv("./clusterwise_pairs.csv", index=False)
+    df.to_csv("./data/clusterwise_pairs.csv", index=False)
     print(f"Total Number of Pairs Found are - {len(all_pairs)}")
     print(f"Total Possible Pairs - {total_pairs}" )

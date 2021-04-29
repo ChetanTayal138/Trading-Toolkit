@@ -8,19 +8,20 @@ import pandas as pd
 sys.path.append("../quant")
 from alphabeta_regression import normal_equation
 import argparse
-from strategy import PairTradingStrategy
+
+from strategies.pairstrading import PairTradingStrategy
 
 
 def main():
     args = parse_args()
     print(args)
-    pairs_file = pd.read_csv("./sectorwise_pairs.csv")
+    pairs_file = pd.read_csv("./data/clusterwise_pairs.csv")
     pair_val = 0
-    for pair in pairs_file.values[:26]:
+    for pair in pairs_file.values:
         pair_val = pair_val + runstrategy(args, pair[0], pair[1])
         
     print("Average Portfolio Value")
-    print(pair_val / 26 )
+    print(pair_val / len(pairs_file) )
 
 def runstrategy(args, s1, s2):
 
@@ -74,7 +75,7 @@ def parse_args():
 
 
     parser.add_argument('--fromdate', '-f',
-                        default='2018-01-01',
+                        default='2017-01-01',
                         help='Starting date in YYYY-MM-DD format')
 
     parser.add_argument('--todate', '-t',

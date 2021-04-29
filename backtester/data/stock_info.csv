@@ -1,0 +1,397 @@
+,Symbol,Sector
+0,3MINDIA,Industrials
+1,ABB,Industrials
+2,ACC,Basic Materials
+3,AIAENG,Industrials
+4,APLAPOLLO,Basic Materials
+5,AARTIDRUGS,Healthcare
+6,AARTIIND,Basic Materials
+7,ABBOTINDIA,Healthcare
+8,ADANIENT,Energy
+9,ADANIPORTS,Industrials
+10,ADANITRANS,Utilities
+11,ABFRL,Consumer Cyclical
+12,AEGISCHEM,Energy
+13,AJANTPHARM,Healthcare
+14,AKZOINDIA,Basic Materials
+15,ALEMBICLTD,Healthcare
+16,APLLTD,Healthcare
+17,ALKEM,Healthcare
+18,ALKYLAMINE,Basic Materials
+19,ALOKINDS,Consumer Cyclical
+20,AMARAJABAT,Consumer Cyclical
+21,AMBUJACEM,Basic Materials
+22,APOLLOHOSP,Healthcare
+23,APOLLOTYRE,Consumer Cyclical
+24,ASAHIINDIA,Consumer Cyclical
+25,ASHOKLEY,Consumer Cyclical
+26,ASHOKA,Industrials
+27,ASIANPAINT,Basic Materials
+28,ASTRAZEN,Healthcare
+29,ASTRAL,Industrials
+30,ATUL,Basic Materials
+31,AUROPHARMA,Healthcare
+32,AVANTIFEED,Consumer Defensive
+33,AXISBANK,Financial Services
+34,BASF,Basic Materials
+35,BEML,Industrials
+36,BAJAJ-AUTO,Consumer Cyclical
+37,BAJAJCON,Consumer Defensive
+38,BAJAJELEC,Utilities
+39,BAJFINANCE,Financial Services
+40,BAJAJFINSV,Financial Services
+41,BAJAJHLDNG,Financial Services
+42,BALAMINES,Basic Materials
+43,BALKRISIND,Consumer Cyclical
+44,BALMLAWRIE,Industrials
+45,BALRAMCHIN,Consumer Defensive
+46,BANKBARODA,Financial Services
+47,BANKINDIA,Financial Services
+48,MAHABANK,Financial Services
+49,BATAINDIA,Consumer Cyclical
+50,BAYERCROP,Basic Materials
+51,BERGEPAINT,Basic Materials
+52,BEL,Industrials
+53,BHARATFORG,Consumer Cyclical
+54,BHEL,Industrials
+55,BPCL,Energy
+56,BHARATRAS,Basic Materials
+57,BHARTIARTL,Communication Services
+58,BIOCON,Healthcare
+59,BIRLACORPN,Basic Materials
+60,BSOFT,Technology
+61,BLISSGVS,Healthcare
+62,BLUEDART,Industrials
+63,BLUESTARCO,Industrials
+64,BBTC,Industrials
+65,BOSCHLTD,Consumer Cyclical
+66,BRIGADE,Real Estate
+67,BRITANNIA,Consumer Defensive
+68,CCL,Consumer Defensive
+69,CESC,Utilities
+70,CRISIL,Financial Services
+71,CADILAHC,Healthcare
+72,CANFINHOME,Financial Services
+73,CANBK,Financial Services
+74,CAPLIPOINT,Healthcare
+75,CGCL,Financial Services
+76,CARBORUNIV,Industrials
+77,CASTROLIND,Basic Materials
+78,CEATLTD,Consumer Cyclical
+79,CENTRALBK,Financial Services
+80,CENTURYPLY,Consumer Cyclical
+81,CENTURYTEX,Basic Materials
+82,CERA,Industrials
+83,CHAMBLFERT,Basic Materials
+84,CHOLAHLDNG,Financial Services
+85,CHOLAFIN,Financial Services
+86,CIPLA,Healthcare
+87,CUB,Financial Services
+88,COALINDIA,Energy
+89,COLPAL,Consumer Defensive
+90,CONCOR,Industrials
+91,COROMANDEL,Basic Materials
+92,CUMMINSIND,Industrials
+93,CYIENT,Industrials
+94,DCBBANK,Financial Services
+95,DCMSHRIRAM,Basic Materials
+96,DLF,Real Estate
+97,DABUR,Consumer Defensive
+98,DEEPAKNTR,Basic Materials
+99,DELTACORP,Consumer Cyclical
+100,DHANI,Financial Services
+101,DHANUKA,Basic Materials
+102,DISHTV,Communication Services
+103,DCAL,Healthcare
+104,DIVISLAB,Healthcare
+105,LALPATHLAB,Healthcare
+106,DRREDDY,Healthcare
+107,EIDPARRY,Consumer Defensive
+108,EIHOTEL,Consumer Cyclical
+109,EDELWEISS,Financial Services
+110,EICHERMOT,Consumer Cyclical
+111,ELGIEQUIP,Industrials
+112,EMAMILTD,Consumer Defensive
+113,ENGINERSIN,Industrials
+114,ESCORTS,Industrials
+115,EXIDEIND,Consumer Cyclical
+116,FDC,Healthcare
+117,FEDERALBNK,Financial Services
+118,FINCABLES,Industrials
+119,FINPIPE,Industrials
+120,FSL,Technology
+121,FORTIS,Healthcare
+122,FCONSUMER,Consumer Defensive
+123,GAIL,Utilities
+124,GEPIL,Industrials
+125,GHCL,Basic Materials
+126,GMRINFRA,Industrials
+127,GARFIBRES,Consumer Cyclical
+128,GILLETTE,Consumer Defensive
+129,GLAXO,Healthcare
+130,GLENMARK,Healthcare
+131,GODFRYPHLP,Consumer Defensive
+132,GODREJCP,Consumer Defensive
+133,GODREJIND,Industrials
+134,GODREJPROP,Real Estate
+135,GRANULES,Healthcare
+136,GRAPHITE,Industrials
+137,GRASIM,Basic Materials
+138,GESHIP,Industrials
+139,GREAVESCOT,Industrials
+140,GRINDWELL,Industrials
+141,GUJALKALI,Basic Materials
+142,GAEL,Consumer Defensive
+143,GUJGASLTD,Utilities
+144,GNFC,Basic Materials
+145,GPPL,Industrials
+146,GSFC,Basic Materials
+147,GSPL,Utilities
+148,GULFOILLUB,Basic Materials
+149,HEG,Industrials
+150,HCLTECH,Technology
+151,HDFCBANK,Financial Services
+152,HFCL,Technology
+153,HATSUN,Consumer Defensive
+154,HAVELLS,Industrials
+155,HEIDELBERG,Basic Materials
+156,HEROMOTOCO,Consumer Cyclical
+157,HSCL,Basic Materials
+158,HINDALCO,Basic Materials
+159,HINDCOPPER,Basic Materials
+160,HINDPETRO,Energy
+161,HINDUNILVR,Consumer Defensive
+162,HINDZINC,Basic Materials
+163,HONAUT,Industrials
+164,HDFC,Financial Services
+165,HUHTAMAKI,Consumer Cyclical
+166,ICICIBANK,Financial Services
+167,IDBI,Financial Services
+168,IDFCFIRSTB,Financial Services
+169,IDFC,Financial Services
+170,IFBIND,Technology
+171,IIFL,Financial Services
+172,IOLCP,Healthcare
+173,IRB,Industrials
+174,ITC,Consumer Defensive
+175,ITI,Technology
+176,INDIACEM,Basic Materials
+177,IBULHSGFIN,Financial Services
+178,IBREALEST,Real Estate
+179,INDIANB,Financial Services
+180,INDHOTEL,Consumer Cyclical
+181,IOC,Energy
+182,IOB,Financial Services
+183,ICIL,Consumer Cyclical
+184,INDOCO,Healthcare
+185,IGL,Utilities
+186,INDUSINDBK,Financial Services
+187,NAUKRI,Communication Services
+188,INFY,Technology
+189,INGERRAND,Industrials
+190,INOXLEISUR,Communication Services
+191,INTELLECT,Technology
+192,INDIGO,Industrials
+193,IPCALAB,Healthcare
+194,JBCHEPHARM,Healthcare
+195,JKCEMENT,Basic Materials
+196,JKLAKSHMI,Basic Materials
+197,JKPAPER,Basic Materials
+198,JKTYRE,Consumer Cyclical
+199,JMFINANCIL,Financial Services
+200,JSWENERGY,Utilities
+201,JSWSTEEL,Basic Materials
+202,JTEKTINDIA,Consumer Cyclical
+203,JAMNAAUTO,Consumer Cyclical
+204,JINDALSAW,Basic Materials
+205,JSL,Basic Materials
+206,JINDALSTEL,Basic Materials
+207,JCHAC,Technology
+208,JUBLFOOD,Consumer Cyclical
+209,JUSTDIAL,Communication Services
+210,JYOTHYLAB,Consumer Defensive
+211,KPRMILL,Consumer Cyclical
+212,KEI,Industrials
+213,KNRCON,Industrials
+214,KRBL,Consumer Defensive
+215,KSB,Industrials
+216,KAJARIACER,Industrials
+217,KALPATPOWR,Industrials
+218,KANSAINER,Basic Materials
+219,KARURVYSYA,Financial Services
+220,KSCL,Consumer Defensive
+221,KEC,Industrials
+222,KOTAKBANK,Financial Services
+223,L&TFH,Financial Services
+224,LICHSGFIN,Financial Services
+225,LAOPALA,Consumer Cyclical
+226,LAXMIMACH,Industrials
+227,LT,Industrials
+228,LINDEINDIA,Basic Materials
+229,LUPIN,Healthcare
+230,LUXIND,Consumer Cyclical
+231,MMTC,Industrials
+232,MOIL,Basic Materials
+233,MRF,Consumer Cyclical
+234,MAHSCOOTER,Consumer Cyclical
+235,MAHSEAMLES,Basic Materials
+236,M&MFIN,Financial Services
+237,M&M,Consumer Cyclical
+238,MAHINDCIE,Consumer Cyclical
+239,MHRIL,Consumer Cyclical
+240,MANAPPURAM,Financial Services
+241,MRPL,Energy
+242,MARICO,Consumer Defensive
+243,MARUTI,Consumer Cyclical
+244,MFSL,Financial Services
+245,MINDTREE,Technology
+246,MINDACORP,Consumer Cyclical
+247,MINDAIND,Consumer Cyclical
+248,MOTHERSUMI,Consumer Cyclical
+249,MOTILALOFS,Financial Services
+250,MPHASIS,Technology
+251,MCX,Financial Services
+252,MUTHOOTFIN,Financial Services
+253,NATCOPHARM,Healthcare
+254,NBCC,Industrials
+255,NCC,Industrials
+256,NESCO,Industrials
+257,NHPC,Utilities
+258,NLCINDIA,Utilities
+259,NMDC,Basic Materials
+260,NOCIL,Basic Materials
+261,NTPC,Utilities
+262,NATIONALUM,Basic Materials
+263,NFL,Basic Materials
+264,NAVINFLUOR,Basic Materials
+265,NESTLEIND,Consumer Defensive
+266,NETWORK18,Communication Services
+267,NILKAMAL,Consumer Cyclical
+268,OBEROIRLTY,Real Estate
+269,ONGC,Energy
+270,OIL,Energy
+271,OFSS,Technology
+272,ORIENTREF,Industrials
+273,PIIND,Basic Materials
+274,PNCINFRA,Industrials
+275,PVR,Communication Services
+276,PAGEIND,Consumer Cyclical
+277,PERSISTENT,Technology
+278,PETRONET,Energy
+279,PFIZER,Healthcare
+280,PHILIPCARB,Basic Materials
+281,PHOENIXLTD,Real Estate
+282,PIDILITIND,Basic Materials
+283,PEL,Financial Services
+284,POLYMED,Healthcare
+285,POLYPLEX,Basic Materials
+286,PFC,Financial Services
+287,POWERGRID,Utilities
+288,PRESTIGE,Real Estate
+289,PRSMJOHNSN,Basic Materials
+290,PGHL,Healthcare
+291,PGHH,Consumer Defensive
+292,PNB,Financial Services
+293,RECLTD,Financial Services
+294,RADICO,Consumer Defensive
+295,RAIN,Basic Materials
+296,RAJESHEXPO,Consumer Cyclical
+297,RALLIS,Basic Materials
+298,RCF,Basic Materials
+299,RATNAMANI,Basic Materials
+300,RAYMOND,Consumer Cyclical
+301,REDINGTON,Technology
+302,RELAXO,Consumer Cyclical
+303,RELIANCE,Energy
+304,RESPONIND,Basic Materials
+305,SJVN,Utilities
+306,SKFINDIA,Industrials
+307,SRF,Basic Materials
+308,SANOFI,Healthcare
+309,SCHAEFFLER,Industrials
+310,SCHNEIDER,Industrials
+311,SHARDACROP,Basic Materials
+312,SHILPAMED,Healthcare
+313,SCI,Industrials
+314,SHOPERSTOP,Consumer Cyclical
+315,SHREECEM,Basic Materials
+316,SHRIRAMCIT,Financial Services
+317,SRTRANSFIN,Financial Services
+318,SIEMENS,Industrials
+319,SOBHA,Real Estate
+320,SOLARINDS,Basic Materials
+321,SONATSOFTW,Technology
+322,SBIN,Financial Services
+323,SAIL,Basic Materials
+324,STAR,Healthcare
+325,SUDARSCHEM,Basic Materials
+326,SPARC,Healthcare
+327,SUNPHARMA,Healthcare
+328,SUNTV,Communication Services
+329,SUNCLAYLTD,Consumer Cyclical
+330,SUNDARMFIN,Financial Services
+331,SUNDRMFAST,Consumer Cyclical
+332,SUNTECK,Real Estate
+333,SUPRAJIT,Consumer Cyclical
+334,SUPREMEIND,Consumer Cyclical
+335,SUPPETRO,Basic Materials
+336,SUZLON,Industrials
+337,SWANENERGY,Consumer Cyclical
+338,SYMPHONY,Consumer Cyclical
+339,SYNGENE,Healthcare
+340,TTKPRESTIG,Consumer Cyclical
+341,TV18BRDCST,Communication Services
+342,TVSMOTOR,Consumer Cyclical
+343,TANLA,Technology
+344,TATACHEM,Basic Materials
+345,TATACOFFEE,Consumer Defensive
+346,TATACOMM,Communication Services
+347,TCS,Technology
+348,TATACONSUM,Consumer Defensive
+349,TATAELXSI,Technology
+350,TATAINVEST,Financial Services
+351,TATAMTRDVR,Consumer Cyclical
+352,TATAMOTORS,Consumer Cyclical
+353,TATAPOWER,Utilities
+354,TATASTLBSL,Basic Materials
+355,TATASTEEL,Basic Materials
+356,TECHM,Technology
+357,RAMCOCEM,Basic Materials
+358,THERMAX,Industrials
+359,TIMKEN,Industrials
+360,TITAN,Consumer Cyclical
+361,TORNTPHARM,Healthcare
+362,TORNTPOWER,Utilities
+363,TRENT,Consumer Cyclical
+364,TRIDENT,Consumer Cyclical
+365,TRITURBINE,Industrials
+366,UCOBANK,Financial Services
+367,UFLEX,Consumer Cyclical
+368,UPL,Basic Materials
+369,ULTRACEMCO,Basic Materials
+370,UNIONBANK,Financial Services
+371,UBL,Consumer Defensive
+372,MCDOWELL-N,Consumer Defensive
+373,VGUARD,Industrials
+374,VMART,Consumer Cyclical
+375,VIPIND,Consumer Cyclical
+376,VSTIND,Consumer Defensive
+377,VAIBHAVGBL,Consumer Cyclical
+378,VAKRANGEE,Technology
+379,VTL,Consumer Cyclical
+380,VEDL,Basic Materials
+381,VENKEYS,Consumer Defensive
+382,VINATIORGA,Basic Materials
+383,IDEA,Communication Services
+384,VOLTAS,Industrials
+385,WABCOINDIA,Consumer Cyclical
+386,WELCORP,Basic Materials
+387,WELSPUNIND,Consumer Cyclical
+388,WHIRLPOOL,Technology
+389,WIPRO,Technology
+390,WOCKPHARMA,Healthcare
+391,YESBANK,Financial Services
+392,ZEEL,Communication Services
+393,ZENSARTECH,Technology
+394,ZYDUSWELL,Consumer Defensive
+395,ECLERX,Technology
