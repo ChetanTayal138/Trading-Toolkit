@@ -1,14 +1,13 @@
 import backtrader as bt
 import time
 
-class BuyHoldStrategy(bt.Strategy):
+class LongShortStrategy(bt.Strategy):
 
     params = dict(
         quantity=0,
-        status=0,
+        status=False,
         printout=True,
-        portfolio_value=10000,
-        
+        portfolio_value=100000,
         )
 
 
@@ -56,19 +55,14 @@ class BuyHoldStrategy(bt.Strategy):
         if self.orderid:
             return
 
-
-        if self.data.close[0] > self.data.close[-1] and self.data.close[-1] > self.data.close[-2]:
+        if self.status == False:
+            print("Executing Buys")
             self.log(f"Attempting Buy @ {self.data.close[0]}")
             self.buy()
 
             
 
-        if self.data.close[0] < self.data.close[-1] and self.data.close[-1] < self.data.close[-2] :
-            self.log(f"Closing Position @ {self.data.close[0]}")
-            self.close()
-        #    self.log(f"Attempting Sell @ {self.data.close[0]}")
-        #    self.sell()
-        #129207.37289999991
+        
 
         print(f"Current Asset Value : {self.data.close[0]}")
         print(f"End of Day Cash : {self.broker.getcash()}")

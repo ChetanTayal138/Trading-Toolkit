@@ -4,6 +4,8 @@ sys.path.append("../quant")
 from alphabeta_regression import normal_equation
 import numpy as np
 import matplotlib.pyplot as plt
+import backtrader as bt
+from backtrader.indicators import PeriodN
 
 class PairChecker:
 
@@ -38,11 +40,11 @@ class PairChecker:
                         #print("Series is unlikely cointegrated")
                     else:
                         hurst_value = self.check_hurst(spread)
-                        print(hurst_value)
+                        
                         if hurst_value < hurst_threshold:
                             halflife_value = self.check_half_life(spread)
                             print(halflife_value)
-                            if halflife_value > 1 and halflife_value < 365:
+                            if halflife_value > 1 and halflife_value < 100:
                         #print("Series is likely cointegrated")
                                 self.pairs.append( [self.cluster[i], self.cluster[j]])
 
@@ -92,3 +94,52 @@ class PairChecker:
 
 
 
+class OLS_Slope_InterceptN(PeriodN):
+    '''
+    Calculates a linear regression using ``statsmodel.OLS`` (Ordinary least
+    squares) of data1 on data0
+    Uses ``pandas`` and ``statsmodels``
+    '''
+    _mindatas = 2  # ensure at least 2 data feeds are passed
+
+    packages = (
+        ('pandas', 'pd'),
+        ('statsmodels.api', 'sm'),
+    )
+    lines = ('slope', 'intercept',)
+    params = (
+        ('period', 10),
+    )
+
+    def next(self):
+        p0 = pd.Series(self.data0.get(size=len(self.data0))).values
+        p1 = pd.Series(self.data1.get(size=len(self.data1))).values
+
+        #alpha, beta = normal_equation(p1.reshape(-1,1), p0.reshape(-1,1))
+        p1 = sm.add_constant(p1)
+        intercept, slope = sm.OLS(p0, p1).fit().params
+        
+
+        self.lines.slope[0] = intercept
+        self.lines.intercept[0] = slope
+
+
+class OLS_TransformationN(PeriodN):
+    '''
+    Calculates the ``zscore`` for data0 and data1. Although it doesn't directly
+    uses any external package it relies on ``OLS_SlopeInterceptN`` which uses
+    ``pandas`` and ``statsmodels``
+    '''
+    _mindatas = 2  # ensure at least 2 data feeds are passed
+    lines = ('spread', 'spread_mean', 'spread_std', 'zscore',)
+    params = (('period', 10),)
+
+    def __init__(self):
+        slint = OLS_Slope_InterceptN(*self.datas)
+
+        spread = self.data0 - (slint.slope * self.data1 + slint.intercept)
+        self.l.spread = spread
+
+        self.l.spread_mean = bt.ind.SMA(spread, period=self.p.period)
+        self.l.spread_std = bt.ind.StdDev(spread, period=self.p.period)
+        self.l.zscore = (spread - self.l.spread_mean) / self.l.spread_std

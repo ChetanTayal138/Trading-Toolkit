@@ -134,7 +134,7 @@ def plot_TSNE(X, clf, clustered_series_all):
     ax.set_xticks(range(-50, 51, 600))
     ax.set_yticks(range(-50, 51, 600))
     #plt.savefig('DBSCAN_2014_2018_eps0_15.png', bbox_inches='tight', pad_inches=0.01)
-    plt.savefig('OPTICS_2013_2017.png', bbox_inches='tight', pad_inches=0.1)
+    plt.savefig('../data/OPTICS_2013_2017.png', bbox_inches='tight', pad_inches=0.1)
     plt.show()
 
 

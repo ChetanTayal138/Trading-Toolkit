@@ -187,15 +187,15 @@ if __name__ == "__main__":
   
     
 
-    #all_pairs, total_pairs = generate_sectorwise_pairs(sectorwise_clusters, "2018-01-01", "2020-01-01")
+    all_pairs, total_pairs = generate_sectorwise_pairs(sectorwise_clusters, "2019-01-01", "2020-01-01")
     
-    #df = pd.DataFrame(all_pairs, columns = ['Asset 1', 'Asset 2'])
-    #df.to_csv("./sectorwise_pairs.csv", index=False)
-    #print(f"Total Number of Pairs Found are - {len(all_pairs)}")
-    #print(f"Total Possible Pairs - {total_pairs}" )
+    df = pd.DataFrame(all_pairs, columns = ['Asset 1', 'Asset 2'])
+    df.to_csv("./data/sectorwise_pairs.csv", index=False)
+    print(f"Total Number of Pairs Found are - {len(all_pairs)}")
+    print(f"Total Possible Pairs - {total_pairs}" )
 
     
-    all_pairs, total_pairs = generate_clusterwise_pairs(counts, clustered_series, label_n, "2017-01-01", "2020-01-01")
+    all_pairs, total_pairs = generate_clusterwise_pairs(counts, clustered_series, label_n, "2019-01-01", "2020-01-01")
 
     df = pd.DataFrame(all_pairs, columns = ['Asset 1', 'Asset 2'])
     df.to_csv("./data/clusterwise_pairs.csv", index=False)
