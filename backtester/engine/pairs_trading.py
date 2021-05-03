@@ -3,6 +3,8 @@ import datetime
 import backtrader as bt
 import backtrader.feeds as btfeeds
 import backtrader.indicators as btind
+import backtrader.analyzers as btanalyzers
+
 import sys
 import pandas as pd
 sys.path.append("../../quant")
@@ -10,17 +12,30 @@ from alphabeta_regression import normal_equation
 import argparse
 sys.path.append("../strategies")
 from pairstrading import PairsTradingStrategy
+import pyfolio as pf
 
-
-def main():
+def main(write_to_file=False):
     args = parse_args()
+    CHOICE = "sector"
     print(args)
-    pairs_file = pd.read_csv("../data/sectorwise_pairs.csv")
+    
+    #pairs_file = pd.read_csv(f"../data/{CHOICE}wise_pairs.csv")
+    
+    pairs_file = pd.read_csv(f"../data/{CHOICE}wise_winners.txt", delimiter=" ")    
+    pairs_file = pairs_file.sort_values('PORTFOLIO_VALUE', ascending=False).iloc[:10, :2]
+    
     pair_val = 0
     j = 0
-    for pair in pairs_file.values:
-        print(pair)
-        pair_val = pair_val + runstrategy(args, pair[0], pair[1])
+    
+    for pair in pairs_file.values[1:]:
+        curr_val = runstrategy(args, pair[0], pair[1])
+        if write_to_file == True:
+            if curr_val > args.cash:
+                with open(f"../data/{CHOICE}wise_winners.txt", "a") as f:
+                    f.write(f"{pair[0]} {pair[1]} {curr_val}\n")
+
+            
+        pair_val = pair_val + curr_val
         j = j + 1
         
     print("Average Portfolio Value")
@@ -56,17 +71,25 @@ def runstrategy(args, s1, s2):
     # Add the commission - only stocks like a for each operation
     cerebro.broker.setcommission(commission=args.commperc)
 
-    # And run it
-    val = cerebro.run()[0]
-    
-    val = val.broker.getvalue()
-    print(val)
+    cerebro.addanalyzer(btanalyzers.SharpeRatio, _name='mysharpe')
+    cerebro.addanalyzer(btanalyzers.PyFolio, _name='pyfolio')
 
-    # Plot if requested
+    # And run it
+    val = cerebro.run()
+    
+    final_portfolio_value = val[0].broker.getvalue()
+    pyfoliozer = val[0].analyzers.getbyname('pyfolio')
+
+    returns, positions, transactions, gross_lev = pyfoliozer.get_pf_items()
+    print(returns)
+    print(positions)
+    print(transactions)
+    print(gross_lev)
+    #pf.create_full_tear_sheet( returns, positions=positions, transactions=transactions, live_start_date="2019-01-05",round_trips=True)
     if args.plot:
         cerebro.plot(numfigs=args.numfigs, volume=False, zdown=False)
 
-    return val
+    return final_portfolio_value
 
 
 def parse_args():
@@ -78,7 +101,7 @@ def parse_args():
 
 
     parser.add_argument('--fromdate', '-f',
-                        default='2019-01-01',
+                        default='2020-01-01',
                         help='Starting date in YYYY-MM-DD format')
 
     parser.add_argument('--todate', '-t',
@@ -115,4 +138,4 @@ def parse_args():
 
 if __name__ == "__main__":
 
-    main()
+    main(write_to_file=False)
