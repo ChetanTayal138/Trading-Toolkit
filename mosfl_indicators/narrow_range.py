@@ -47,7 +47,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     
-    MONTHS = ["JAN","FEB","MAR", "APR"]
+    MONTHS = ["JAN","FEB","MAR", "APR", "MAY"]
     NSE_200 = pd.read_csv("./data/input/bhavcopies/ind_nifty200list.csv")    
     NSE_200_SYMBOLS = list(NSE_200['Symbol'])
 

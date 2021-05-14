@@ -11,7 +11,6 @@ def get_equities(PATH, equities):
 
     return curr_df
 
-
 def get_month_dates(months):
 
     month_dates = []
