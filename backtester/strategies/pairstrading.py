@@ -82,13 +82,8 @@ class PairsTradingStrategy(bt.Strategy):
         #self.spread_indicator = SpreadIndicator(self.data0, self.data1, self.beta)
         #print(type(self.spread_indicator))
         #self.my_spread = self.spread_indicator.lines.spread
-        self.transform = OLS_TransformationN(self.data0, self.data1,
-                                                   period=self.p.period)
-        
-        self.zscore = self.transform.zscore
-        
-        
-        
+        self.transform = OLS_TransformationN(self.data0, self.data1, period=self.p.period)
+        self.zscore = self.transform.zscore 
 
         #self.data1 - self.beta * self.data0
         
@@ -122,8 +117,6 @@ class PairsTradingStrategy(bt.Strategy):
         print('Normalized Spread is', self.zscore[0])
         self.spread_history.append(self.zscore[0])
         #arr = vars(self.zscore)['array']
-
-
 
         # Step 2: Check conditions for SHORT & place the order
         # Checking the condition for SHORT

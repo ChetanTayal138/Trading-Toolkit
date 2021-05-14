@@ -110,9 +110,9 @@ def plot_TSNE(X, clf, clustered_series_all):
         plt.annotate(ticker, (x[i], y[i]), size=5)
 
     # remaining etfs, not clustered
-    #x = X_tsne[(clustered_series_all==-1).values, 0]
-    #y = X_tsne[(clustered_series_all==-1).values, 1]
-    #tickers = list(clustered_series_all[clustered_series_all == -1].index)
+    x = X_tsne[(clustered_series_all==-1).values, 0]
+    y = X_tsne[(clustered_series_all==-1).values, 1]
+    tickers = list(clustered_series_all[clustered_series_all == -1].index)
 
     # WARNING: elimintate outliers
     #outliers = ['DTO','SCO']
@@ -126,7 +126,7 @@ def plot_TSNE(X, clf, clustered_series_all):
 
     #plt.scatter(x,y,s=50,alpha=0.20,c='black')
     #for i, ticker in enumerate(tickers):
-    #    plt.annotate(ticker, (x[i], y[i]))#, arrowprops={'arrowstyle':'simple'})
+    #    plt.annotate(ticker, (x[i], y[i]), size=5)#, arrowprops={'arrowstyle':'simple'})
         
     plt.title('OPTICS clusters visualized with t-SNE', size=16);
     plt.xlabel('t-SNE Dim. 1', position=(0.92,0), size=20)
@@ -134,8 +134,8 @@ def plot_TSNE(X, clf, clustered_series_all):
     ax.set_xticks(range(-50, 51, 600))
     ax.set_yticks(range(-50, 51, 600))
     #plt.savefig('DBSCAN_2014_2018_eps0_15.png', bbox_inches='tight', pad_inches=0.01)
-    plt.savefig('../data/OPTICS_2013_2017.png', bbox_inches='tight', pad_inches=0.1)
-    plt.show()
+    #plt.savefig('../data/OPTICS_2013_2017.png', bbox_inches='tight', pad_inches=0.1)
+    
 
 
 def plot_cluster(cluster_elements, stock_info):

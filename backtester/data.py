@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import yfinance as yf
@@ -8,6 +9,7 @@ import io
 from sklearn.decomposition import PCA
 from sklearn import preprocessing
 import os
+import requests
 
 def download_yahoo_data(start, end, download=True):
 
@@ -63,15 +65,18 @@ def filter_df(START_DATE, END_DATE, df):
 def apply_PCA(x, components, svd_solver='auto', random_state=0):
     print(x.shape)
     
-    pca = PCA(n_components = components, svd_solver = svd_solver ,random_state = random_state)
+    pca = PCA(n_components = 6, svd_solver = svd_solver ,random_state = random_state)
     pca.fit(x)
     explained_variance = pca.explained_variance_
     X = preprocessing.StandardScaler().fit_transform(pca.components_.T)
+    print(explained_variance)
+    j = [i for i in range(6)]
+    
+
+    
+
 
     return X, explained_variance
-
-
-
 
 
 

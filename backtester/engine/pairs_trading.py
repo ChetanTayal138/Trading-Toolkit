@@ -19,15 +19,15 @@ def main(write_to_file=False):
     CHOICE = "sector"
     print(args)
     
-    #pairs_file = pd.read_csv(f"../data/{CHOICE}wise_pairs.csv")
+    pairs_file = pd.read_csv(f"../data/{CHOICE}wise_pairs.csv")
     
-    pairs_file = pd.read_csv(f"../data/{CHOICE}wise_winners.txt", delimiter=" ")    
-    pairs_file = pairs_file.sort_values('PORTFOLIO_VALUE', ascending=False).iloc[:10, :2]
+    #pairs_file = pd.read_csv(f"../data/{CHOICE}wise_winners.txt", delimiter=" ")    
+    #pairs_file = pairs_file.sort_values('PORTFOLIO_VALUE', ascending=False).iloc[:5, :2]
     
     pair_val = 0
     j = 0
     
-    for pair in pairs_file.values[1:]:
+    for pair in pairs_file.values:
         curr_val = runstrategy(args, pair[0], pair[1])
         if write_to_file == True:
             if curr_val > args.cash:
@@ -81,10 +81,7 @@ def runstrategy(args, s1, s2):
     pyfoliozer = val[0].analyzers.getbyname('pyfolio')
 
     returns, positions, transactions, gross_lev = pyfoliozer.get_pf_items()
-    print(returns)
-    print(positions)
-    print(transactions)
-    print(gross_lev)
+    
     #pf.create_full_tear_sheet( returns, positions=positions, transactions=transactions, live_start_date="2019-01-05",round_trips=True)
     if args.plot:
         cerebro.plot(numfigs=args.numfigs, volume=False, zdown=False)
@@ -101,11 +98,11 @@ def parse_args():
 
 
     parser.add_argument('--fromdate', '-f',
-                        default='2020-01-01',
+                        default='2016-01-01',
                         help='Starting date in YYYY-MM-DD format')
 
     parser.add_argument('--todate', '-t',
-                        default='2021-01-01',
+                        default='2017-01-01',
                         help='Starting date in YYYY-MM-DD format')
 
 
@@ -138,4 +135,4 @@ def parse_args():
 
 if __name__ == "__main__":
 
-    main(write_to_file=False)
+    main(write_to_file=True)
