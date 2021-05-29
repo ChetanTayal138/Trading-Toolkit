@@ -9,39 +9,41 @@ import yfinance as yf
 if __name__ == "__main__":
 
 
-	DRAGONFLY_LIST = ["Sundaram Finance Limited"]
+	DRAGONFLY_LIST = ["JSW Steel Limited"]
 	DRAGONFLY_PRICE_LIST = []
 
-	BULLHC_LIST = ["Tata Elxsi Limited"]
+	BULLHC_LIST = ["Aarti Industries Limited"]
 	BULLHC_PRICE_LIST = []
 
-	BM_LIST = ["Birla Corporation Limited"]
+	BM_LIST = ["JTEKT India Limited"]
 
 	BM_PRICE_LIST = []
 
 
-	BEARHC_LIST = ["Angel Broking Limited"]
+	BEARHC_LIST = ["Page Industries Limited"]
 	BEARHC_PRICE_LIST = []
 
-	ENGULFING_LIST = ["Linde India Limited"]
+	ENGULFING_LIST = ["Sterling and Wilson Solar Limited "]
 	ENGULFING_PRICE_LIST = []
 
-	BEARM_LIST = ["Bharat Dynamics Limited"]
+	BEARM_LIST = ["Indian Oil Corporation Limited"]
 	BEARM_PRICE_LIST = []
 
-	HIGH_LIST = sorted(["Birla Corporation Limited", "Adani Transmission Limited", "UPL Limited", "Dalmia Bharat Limited"])
+	HIGH_LIST = sorted(["Angel Broking Limited", "Atul Limited", "Asian Paints Limited", "Bharat Electronincs Limited"])
 	HIGH_PRICE_LIST = []
 	FIFTY_HIGH_LIST = []
+	HIGH_DIFF_LIST = []
 
-	LOW_LIST = sorted(["Godfrey Phillips India Limited", "Sanofi India Limited", "Bata India Limited", "RITES Limited"])
+	LOW_LIST = sorted(["Godfrey Phillips India Limited", "Sanofi India Limited", "Future Retail Limited", "RITES Limited"])
 	LOW_PRICE_LIST = []
 	FIFTY_LOW_LIST = []
+	LOW_DIFF_LIST = []
 
 	
-	OVERSOLD_LIST = sorted(["Procter & Gamble Health Limited", "CEAT Limited", "Navneet Education Limited"])
+	OVERSOLD_LIST = sorted(["Just Dial Limited", "Navneet Education Limited"])
 	OVERSOLD_PRICE_LIST = []
 	
-	OVERBOUGHT_LIST = sorted(["NMDC Limited", "NLC India Limited", "Angel Broking Limited"])
+	OVERBOUGHT_LIST = sorted(["Birla Corporation Limited", "Balkrishna Industries Limited", "Angel Broking Limited"])
 	OVERBOUGHT_PRICE_LIST = []
 
 
@@ -145,6 +147,9 @@ if __name__ == "__main__":
 		HIGH_PRICE_LIST.append(stock_data)
 		FIFTY_HIGH_LIST.append(fifty_two_week_high)
 
+		percent_diff = ((stock_data - fifty_two_week_high) / fifty_two_week_high ) * 100
+		HIGH_DIFF_LIST.append(percent_diff)
+
 
 	for symbol in low_symbols:
 		symbol_name = symbol + ".NS"
@@ -157,6 +162,10 @@ if __name__ == "__main__":
 		
 		LOW_PRICE_LIST.append(stock_data)
 		FIFTY_LOW_LIST.append(fifty_two_week_low)
+
+		percent_diff = ((stock_data - fifty_two_week_low)/fifty_two_week_low) * 100
+
+		LOW_DIFF_LIST.append(percent_diff)
 
 	
 
@@ -194,21 +203,31 @@ if __name__ == "__main__":
     "HIGH_NAME" : "A41:A44",
     "HIGH_PRICE": "B41:B44",
     "FIFTY_HIGH_PRICE" : "C41:C44",
+    "HIGH_DIFF_LIST" : "D41:D44",
 
 	"LOW_NAME" : "G41:G44",
     "LOW_PRICE": "H41:H44",
     "FIFTY_LOW_PRICE" : "I41:I44",
+    "LOW_DIFF_LIST" : "J41:J44"
 
  
     }
 
+    
 	for index,i in enumerate(sheet[EXCEL_MAPPING["OVERSOLD_NAME"]]):
-		print(f"{index} {OVERSOLD_LIST[index]}")
-		i[0].value = OVERSOLD_LIST[index]
+		try:
+			print(f"{index} {OVERSOLD_LIST[index]}")
+			i[0].value = OVERSOLD_LIST[index]
+		except Exception as e:
+			i[0].value = ""
 
 	for index,i in enumerate(sheet[EXCEL_MAPPING["OVERSOLD_PRICE"]]):
-		print(f"{index} {OVERSOLD_PRICE_LIST[index]}")
-		i[0].value = OVERSOLD_PRICE_LIST[index]
+		try:
+			print(f"{index} {OVERSOLD_PRICE_LIST[index]}")
+			i[0].value = OVERSOLD_PRICE_LIST[index]
+
+		except Exception as e:
+			i[0].value = ""
 
 	
 	for index,i in enumerate(sheet[EXCEL_MAPPING["OVERBOUGHT_NAME"]]):
@@ -220,10 +239,19 @@ if __name__ == "__main__":
 		i[0].value = OVERBOUGHT_PRICE_LIST[index]
 
 
-	for index,i in enumerate(sheet[EXCEL_MAPPING["DRAGONFLY_NAME"]]):
-		i[0].value = DRAGONFLY_LIST[index]
-	for index,i in enumerate(sheet[EXCEL_MAPPING["DRAGONFLY_PRICE"]]):
-		i[0].value = DRAGONFLY_PRICE_LIST[index]
+
+	try:
+		for index,i in enumerate(sheet[EXCEL_MAPPING["DRAGONFLY_NAME"]]):
+			i[0].value = DRAGONFLY_LIST[index]
+		for index,i in enumerate(sheet[EXCEL_MAPPING["DRAGONFLY_PRICE"]]):
+			i[0].value = DRAGONFLY_PRICE_LIST[index]
+	except Exception as e:
+		for index,i in enumerate(sheet[EXCEL_MAPPING["DRAGONFLY_NAME"]]):
+			i[0].value = ""
+
+		for index,i in enumerate(sheet[EXCEL_MAPPING["DRAGONFLY_PRICE"]]):
+			i[0].value = ""
+
 
 	
 	for index,i in enumerate(sheet[EXCEL_MAPPING["BULLHC_NAME"]]):
@@ -298,9 +326,21 @@ if __name__ == "__main__":
 	for index,i in enumerate(sheet[EXCEL_MAPPING["HIGH_NAME"]]):
 		i[0].value = HIGH_LIST[index]
 	for index,i in enumerate(sheet[EXCEL_MAPPING["HIGH_PRICE"]]):
-		i[0].value = HIGH_PRICE_LIST[index]
+		try:
+			i[0].value = HIGH_PRICE_LIST[index]
+		except Exception as e:
+			i[0].value = ""
 	for index,i in enumerate(sheet[EXCEL_MAPPING["FIFTY_HIGH_PRICE"]]):
-		i[0].value = FIFTY_HIGH_LIST[index]
+		try:
+			i[0].value = FIFTY_HIGH_LIST[index]
+		except Exception as e:
+			i[0].value = ""
+	for index,i in enumerate(sheet[EXCEL_MAPPING["HIGH_DIFF_LIST"]]):
+		try:
+			i[0].value = HIGH_DIFF_LIST[index]
+		except Exception as e:
+			i[0].value = ""
+		
 
 	
 	for index,i in enumerate(sheet[EXCEL_MAPPING["LOW_NAME"]]):
@@ -309,6 +349,9 @@ if __name__ == "__main__":
 		i[0].value = LOW_PRICE_LIST[index]
 	for index,i in enumerate(sheet[EXCEL_MAPPING["FIFTY_LOW_PRICE"]]):
 		i[0].value = FIFTY_LOW_LIST[index]
+	for index,i in enumerate(sheet[EXCEL_MAPPING["LOW_DIFF_LIST"]]):
+		i[0].value = LOW_DIFF_LIST[index]
+	
 
 
 	workbook.save(filename=f"./test.xlsx")
