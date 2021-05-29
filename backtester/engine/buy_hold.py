@@ -13,14 +13,15 @@ sys.path.append("../strategies")
 from buyhold import BuyHoldStrategy
 
 
-def main():
+def strat_BuyHold(capital):
     args = parse_args()
-    print(args)
-    runstrategy(args)
+    
+    x = runstrategy(args, capital)
+    return x
         
     
 
-def runstrategy(args):
+def runstrategy(args, capital):
 
 
     cerebro = bt.Cerebro()
@@ -28,7 +29,9 @@ def runstrategy(args):
     fromdate = datetime.datetime.strptime(args.fromdate, '%Y-%m-%d')
     todate = datetime.datetime.strptime(args.todate, '%Y-%m-%d')
     print(f"Running Backtest from {fromdate} to {todate}")
-    time.sleep(2)
+    if(capital == 0):
+        print("No starting capital. Exiting...")
+        return 0
 
     data = btfeeds.YahooFinanceCSVData(
         dataname=args.path + args.asset + ".csv",
@@ -41,7 +44,7 @@ def runstrategy(args):
     cerebro.addstrategy(BuyHoldStrategy)
 
     # Add the commission - only stocks like a for each operation
-    cerebro.broker.setcash(args.cash) #CAPITAL
+    cerebro.broker.setcash(capital) #CAPITAL
 
 
     # Add the commission - only stocks like a for each operation
@@ -88,7 +91,7 @@ def parse_args():
     parser.add_argument('--commperc', default=0.001, type=float,
                         help='Percentage commission (0.005 is 0.5 percent')
 
-    parser.add_argument('--plot', '-p', default=True, action='store_true',
+    parser.add_argument('--plot', '-p', default=False, action='store_true',
                         help='Plot the read data')
 
     parser.add_argument('--numfigs', '-n', default=1,
@@ -99,4 +102,4 @@ def parse_args():
 
 if __name__ == "__main__":
 
-    main()
+    strat_BuyHold()

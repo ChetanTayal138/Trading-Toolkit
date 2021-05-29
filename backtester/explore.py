@@ -165,14 +165,14 @@ if __name__ == "__main__":
     print(total_pairs)
 
 
-    X, explained_variance = apply_PCA(stock_final, 2)
+    X, explained_variance = apply_PCA(stock_final, 3)
     
 
     
     clustered_series_all, clustered_series, counts, clf = apply_OPTICS(X, stock_final, min_samples=3,cluster_method='xi')
     #clustered_series_all, clustered_series, counts, clf = apply_DBSCAN(0.15, 4, X, stock_final)
-
     plot_TSNE(X,clf, clustered_series_all)
+    exit()
 
     for label_n in range(len(counts)):
 
@@ -184,20 +184,21 @@ if __name__ == "__main__":
         for el in elements_cluster_n:
             print(f"Name : {el} Sector : {stock_info_dict[el]}")
     
-  
     
+    START = "2017-01-01"
+    END = "2019-01-01"
 
-    """all_pairs, total_pairs = generate_sectorwise_pairs(sectorwise_clusters, "2016-01-01", "2017-01-01")
+    all_pairs, total_pairs = generate_sectorwise_pairs(sectorwise_clusters, START, END)
     
     df = pd.DataFrame(all_pairs, columns = ['Asset 1', 'Asset 2'])
-    df.to_csv("./data/sectorwise_pairs.csv", index=False)
+    df.to_csv(f"./data/sectorwise_pairs_{START}_{END}.csv", index=False)
     print(f"Total Number of Pairs Found are - {len(all_pairs)}")
-    print(f"Total Possible Pairs - {total_pairs}" )"""
-
+    print(f"Total Possible Pairs - {total_pairs}" )
     
-    all_pairs, total_pairs = generate_clusterwise_pairs(counts, clustered_series, label_n, "2016-01-01", "2017-01-01")
+    
+    all_pairs, total_pairs = generate_clusterwise_pairs(counts, clustered_series, label_n, START, END)
 
     df = pd.DataFrame(all_pairs, columns = ['Asset 1', 'Asset 2'])
-    df.to_csv("./data/clusterwise_pairs.csv", index=False)
+    df.to_csv(f"./data/clusterwise_pairs_{START}_{END}.csv", index=False)
     print(f"Total Number of Pairs Found are - {len(all_pairs)}")
     print(f"Total Possible Pairs - {total_pairs}" )

@@ -47,8 +47,6 @@ class BuyHoldStrategy(bt.Strategy):
         self.status = self.p.status
         self.portfolio_value = self.p.portfolio_value
         self.broker.set_coc(True)
-        
-
 
     def next(self):
         print("---------------------------------")
@@ -59,11 +57,22 @@ class BuyHoldStrategy(bt.Strategy):
             return
 
 
-        if self.status == 0:
+        if self.data.close[0] > self.data.close[-1] and self.data.close[-1] > self.data.close[-2]:
+            self.log(f"Attempting Buy @ {self.data.close[0]}")
             self.buy()
-            self.status = 1
-    
+
+            
+
+        if self.data.close[0] < self.data.close[-1] and self.data.close[-1] < self.data.close[-2] :
+            self.log(f"Closing Position @ {self.data.close[0]}")
+            self.close()
+        #    self.log(f"Attempting Sell @ {self.data.close[0]}")
+        #    self.sell()
+        #129207.37289999991
+
         print(f"Current Asset Value : {self.data.close[0]}")
         print(f"End of Day Cash : {self.broker.getcash()}")
         print(f"End of Day Portfolio Value : {self.broker.getvalue()}")
+        print(self.broker.get_fundshares())
         
+    

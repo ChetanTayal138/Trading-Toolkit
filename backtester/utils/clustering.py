@@ -74,7 +74,7 @@ def plot_TSNE(X, clf, clustered_series_all):
     X_tsne = TSNE(learning_rate=1000, perplexity=25, random_state=1337).fit_transform(X)
     
     # visualization
-    fig = plt.figure(1, facecolor='white', figsize=(15,15), frameon=True, edgecolor='black')
+    fig = plt.figure(1, facecolor='white', figsize=(8,8), frameon=True, edgecolor='black')
     plt.clf()
     
     # axis in the middle
@@ -131,8 +131,9 @@ def plot_TSNE(X, clf, clustered_series_all):
     plt.title('OPTICS clusters visualized with t-SNE', size=16);
     plt.xlabel('t-SNE Dim. 1', position=(0.92,0), size=20)
     plt.ylabel('t-SNE Dim. 2', position=(0,0.92), size=20)
-    ax.set_xticks(range(-50, 51, 600))
-    ax.set_yticks(range(-50, 51, 600))
+    ax.set_xticks(range(-50, 51, 300))
+    ax.set_yticks(range(-50, 51, 300))
+    plt.show()
     #plt.savefig('DBSCAN_2014_2018_eps0_15.png', bbox_inches='tight', pad_inches=0.01)
     #plt.savefig('../data/OPTICS_2013_2017.png', bbox_inches='tight', pad_inches=0.1)
     
