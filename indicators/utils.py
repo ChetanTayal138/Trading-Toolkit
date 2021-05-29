@@ -32,7 +32,7 @@ def simple_moving_average(df, day_range=10, view=False):
 
 
 
-def exponential_moving_average(df, day_range=10, view=False, smoothing_factor=2):
+def exponential_moving_average(df, day_range=200, view=False, smoothing_factor=2):
     #Giving more weight to recent prices using smoothing factor = (s/(selected_time_period+1))
     j = 0
     means = {}
@@ -68,11 +68,11 @@ def exponential_moving_average(df, day_range=10, view=False, smoothing_factor=2)
 
 if __name__ == "__main__":
 
-    df = read_df("../data/nasdaq/tsla.csv")
+    df = read_df("../data/nse/NSE_1920/JSWSTEEL.csv")
         
     START_DATE = "2015-01-01"
     END_DATE = "2021-01-01"
-    DAY_RANGE = 50
+    DAY_RANGE = 200
      
     temp = filter_df(START_DATE, END_DATE, df)
     

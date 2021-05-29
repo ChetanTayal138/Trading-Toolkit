@@ -9,9 +9,6 @@ from utils import read_df, filter_df, pct_change
 def generate_datapoint(mean, var):
     return np.random.normal(mean, var)
 
-
-
-
 def stationarity_test(X, cutoff=0.05):
     """Carry out augmented dicky-fuller test on X"""
     p_value= adfuller(X)[1]
@@ -20,11 +17,14 @@ def stationarity_test(X, cutoff=0.05):
         print("Series is likely stationary")
     else:
         print("Series is unlikely stationary")
+    print("Stationarity P_value is " + str(p_value))
     return p_value
 
 if __name__ == "__main__":
+    
+    
 
-    df = read_df("../data/nse/Basket/KOTAKBANK.NS.csv")
+    df = read_df("../data/nse/NSE_1920/KOTAKBANK.csv")
     
     START_DATE = "2015-01-01"
     END_DATE = "2020-01-01"
@@ -34,7 +34,7 @@ if __name__ == "__main__":
     actual_price = actual_price[~np.isnan(actual_price)]
     actual_returns = pct_change(actual_price)
     
-
+    print(actual_price.shape)
     A = []
     print("Stationarity Test for Closing Prices")
     stationarity_test(actual_price)
