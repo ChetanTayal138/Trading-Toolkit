@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import backtrader as bt
 from backtrader.indicators import PeriodN
+import json
 
 class PairChecker:
 
@@ -143,3 +144,36 @@ class OLS_TransformationN(PeriodN):
         self.l.spread_mean = bt.ind.SMA(spread, period=self.p.period)
         self.l.spread_std = bt.ind.StdDev(spread, period=self.p.period)
         self.l.zscore = (spread - self.l.spread_mean) / self.l.spread_std
+
+
+class TradeAnalyzer:
+
+    def __init__(self, analyzer_list):
+        self.summary_dict = dict(analyzer_list.get_analysis().lvalues()[0])
+        self.win_loss_dict = dict(analyzer_list.get_analysis().lvalues()[1])
+        self.win_trades = dict(analyzer_list.get_analysis().lvalues()[3])
+        self.loss_trades = dict(analyzer_list.get_analysis().lvalues()[4])
+
+
+    def get_summary(self):
+        return self.summary_dict
+
+    def get_streak(self):
+        x = [{i:dict(self.win_loss_dict[i])} for i in self.win_loss_dict]
+        return x[0],x[1]
+
+    def get_wins(self):
+        win_trades_info = dict(self.win_trades['pnl'])
+        win_trades_info['number'] = self.win_trades['total']
+        win_trades_info['type'] = 'wins'
+
+        return win_trades_info
+
+    def get_losses(self):
+        loss_trades_info = dict(self.loss_trades['pnl'])
+        loss_trades_info['number'] = self.loss_trades['total']
+        loss_trades_info['type'] = 'losses'
+        return loss_trades_info
+
+
+

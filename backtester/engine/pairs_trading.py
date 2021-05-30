@@ -14,6 +14,10 @@ import argparse
 sys.path.append("../strategies")
 from pairstrading import PairsTradingStrategy
 import pyfolio as pf
+sys.path.append("../utils")
+from pairs import TradeAnalyzer 
+
+
 
 def strat_PairsTrading(write_to_file=False):
     args = parse_args()
@@ -67,7 +71,7 @@ def strat_PairsTrading(write_to_file=False):
     stddev_val = 0
     j = 0
     
-    for pair in pairs_file.values[:1]:
+    for pair in pairs_file.values:
         print(pair)
         try:
             curr_val, drawdown, sharpe, returns = runstrategy(args, pair[0], pair[1])
@@ -84,7 +88,8 @@ def strat_PairsTrading(write_to_file=False):
 
             j = j + 1
 
-        except: 
+        except Exception as e: 
+            print(e)
             pass
         
     print("Average Portfolio Value")
@@ -130,7 +135,7 @@ def runstrategy(args, s1, s2):
     cerebro.addanalyzer(btanalyzers.PyFolio, _name='pyfolio')
     cerebro.addanalyzer(btanalyzers.DrawDown, _name='drawdown' )
     cerebro.addanalyzer(btanalyzers.Returns, _name='returns')
-
+    cerebro.addanalyzer(btanalyzers.TradeAnalyzer, _name='tradeanal')
     # And run it
     val = cerebro.run()
     
@@ -140,12 +145,16 @@ def runstrategy(args, s1, s2):
     drawdown = drawdown_value.get_analysis()['drawdown']
     pyfoliozer = val[0].analyzers.getbyname('pyfolio')
     returns = val[0].analyzers.getbyname('returns')
-
-    returns, positions, transactions, gross_lev = pyfoliozer.get_pf_items()
-    print(returns)
-    print(positions)
-    print(transactions)
+    trade_anal = val[0].analyzers.getbyname('tradeanal')
     
+    
+    TA = TradeAnalyzer(trade_anal)
+    
+    print(TA.get_wins())
+    print(TA.get_losses())
+    
+    returns, positions, transactions, gross_lev = pyfoliozer.get_pf_items()
+     
     #pf.create_full_tear_sheet( returns, positions=positions, transactions=transactions, live_start_date="2019-01-05",round_trips=True)
     if args.plot:
         cerebro.plot(numfigs=args.numfigs, volume=False, zdown=False)
